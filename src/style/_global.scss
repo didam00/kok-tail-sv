@@ -1,0 +1,20 @@
+$background-black: #080808;
+$active-black: #202020;
+$bright-black: #404040;
+$white: #d9d9d9;
+
+// Breakpoints
+$breakpoint-mobile: 335px;
+$breakpoint-tablet: 758px;
+$breakpoint-desktop: 1024px;
+
+* {
+  user-select: none;
+  -webkit-user-drag: none;
+  font-family: Arial, Helvetica, sans-serif;
+  transition: all 180ms;
+}
+
+:root {
+  overflow: hidden;
+}
