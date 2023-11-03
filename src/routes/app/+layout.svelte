@@ -4,6 +4,7 @@
   import bottle_icon from '$lib/images/bottle_icon.svg';
   import add_icon from '$lib/images/add_icon.svg';
   import profile_icon from '$lib/images/profile_icon.svg';
+  import { onMount } from 'svelte';
 
   class SideBarTab {
     constructor (public name: string, public src: string, public href: string) {
@@ -16,28 +17,38 @@
   const side_bar_col: SideBarTab[] = [
     new SideBarTab("fridge", fridge_icon, "/"),
     new SideBarTab("search-cocktail", cup_icon, "/cocktail"),
-    new SideBarTab("search-alchol", bottle_icon, "/alchol"),
+    new SideBarTab("search-alcohol", bottle_icon, "/alcohol"),
     new SideBarTab("add-recipe", add_icon, "/add-recipe"),
     new SideBarTab("my-profile", profile_icon, "/profile"),
   ]
 
-  let current_tab = "fridge";
+  let current_tab = "/";
+
+  onMount(() => {
+    const current_path = window.location.pathname;
+    for (const tab of side_bar_col) {
+      if (tab.href == current_path) {
+        current_tab = tab.href;
+        break;
+      }
+    }
+  });
 </script>
 
 <div class="side-bar">
   <nav>
-    {#each side_bar_col as sb}
-      <a href={sb.href} class="tab-icon {sb.name} {current_tab === sb.name ? 'active' : null}"
-        on:click={() => {current_tab = sb.name}}>
-        <img src={sb.src} alt="{sb.name} tab">
-      </a>
+    {#each side_bar_col as tab}
+      <a href={tab.href} class="tab-icon {tab.name}" class:active={current_tab == tab.href}
+      on:click={() => {current_tab = tab.href}}>
+          <img src={tab.src} alt="{tab.name} tab">
+        </a>
     {/each}
   </nav>
 </div>
 
-<div class="container">
-  <slot />
-</div>
+<div class="backdrop-blur"></div>
+
+<slot />
 
 <style lang='scss'>
   @import "./mixin";
@@ -45,6 +56,25 @@
   :root {
     margin: 0;
     background-color: $background-black;
+  }
+
+  .backdrop-blur {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(16px);
+    z-index: 90;
+    display: none;
+    opacity: 0;
+    transition: all 250ms;
+  }
+
+  .backdrop-blur.active {
+    display: block;
+    opacity: 1;
   }
 
   .side-bar {
@@ -56,16 +86,26 @@
     background: $background-black;
     border-right: 2px solid $bright-black;
     z-index: 99;
-    box-sizing: border-box;
+
+    nav {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+    }
 
     .tab-icon {
       padding: 26px;
       display: block;
       transition: all 150ms;
 
-      &.active {
-        background: $active-black;
-        /* border-right: 2px solid $white; */
+      &:hover {
+        background: #101010;
+      }
+
+      &.active img {
+        filter: brightness(0.25);
       }
     }
   }
@@ -75,6 +115,7 @@
       height: 52px;
       width: 100%;
       bottom: 0;
+      flex-direction: row;
 
       .tab-icon {
         float: left;
@@ -83,12 +124,13 @@
   }
 
   .my-profile {
-    position: fixed;
-    bottom: 0;
+    
   }
 
   .container {
+    position: absolute;
     width: calc(100vw - 80px);
     height: 100vh;
+    right: 0;
   }
 </style>

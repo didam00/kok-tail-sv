@@ -1,0 +1,9 @@
+<svg width="86" height="180" viewBox="0 0 86 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect class="inner" x="3" y="139" width="80" height="22" fill="#E98D59"/>
+<rect class="inner" x="3" y="117" width="80" height="23" fill="#E98D59"/>
+<rect class="inner" x="3" y="95" width="80" height="23" fill="#E98D59"/>
+<rect class="inner" x="3" y="73" width="80" height="23" fill="#E98D59"/>
+<rect class="inner" x="3" y="51" width="80" height="23" fill="#E98D59"/>
+<rect class="inner" x="3" y="29" width="80" height="23" fill="#E98D59"/>
+<path class="glass" fill-rule="evenodd" clip-rule="evenodd" d="M4.27051 150V4H81.2705V150C81.2705 155.523 74.5548 160 66.2705 160H19.2705C10.9862 160 4.27051 155.523 4.27051 150ZM0.270508 150V3C0.270508 1.34314 1.61365 0 3.27051 0H82.2705C83.9274 0 85.2705 1.34315 85.2705 3V150V176V177C85.2705 178.657 83.9274 180 82.2705 180H81.2705H4.27051H3.27051C1.61365 180 0.270508 178.657 0.270508 177V176V150Z" fill="#D9D9D9"/>
+</svg>

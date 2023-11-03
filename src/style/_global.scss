@@ -1,7 +1,11 @@
-$background-black: #080808;
-$active-black: #202020;
-$bright-black: #404040;
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
+$background-black: #000000;
+$active-black: #181818;
+$bright-black: #303030;
+$brighter-black: #606060;
 $white: #d9d9d9;
+$point-pink: #e35959;
 
 // Breakpoints
 $breakpoint-mobile: 335px;
@@ -11,10 +15,65 @@ $breakpoint-desktop: 1024px;
 * {
   user-select: none;
   -webkit-user-drag: none;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: Pretendard, "Noto Sans KR", sans-serif;
   transition: all 180ms;
+  font-weight: 500;
+
+  &::-webkit-scrollbar {
+    background-color: none;
+    width: 4px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: $active-black;
+    border-radius: 2px;
+    
+    &:hover {
+      background-color: $bright-black;
+    }
+  }
+
+  &::selection {
+    background-color: gray;
+  }
 }
 
 :root {
   overflow: hidden;
+}
+
+.search-area {
+  display: block;
+  position: relative;
+  margin: 48px auto 24px auto;
+  width: calc(100% - 600px);
+  padding: 12px 16px;
+  min-width: 800px;
+  border-radius: 24px;
+  background: $active-black;
+  border: 2px solid $bright-black;
+  box-sizing: border-box;
+
+  &:hover {
+    border-color: $brighter-black;
+  }
+
+  .area {
+    width: calc(100% - 32px);
+    outline: none;
+    border: none;
+    background: transparent;
+    color: $white;
+    font-weight: 700;
+    font-size: 16px;
+  }
+
+  .search-icon {
+    position: absolute;
+    top: 50%;
+    right: 16px;
+    transform: translateY(-50%);
+    height: 18px;
+    width: 18px;
+  }
 }

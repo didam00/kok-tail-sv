@@ -1,0 +1,9 @@
+<svg width="70" height="80" viewBox="0 0 70 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path class="inner" fill-rule="evenodd" clip-rule="evenodd" d="M5.23613 65L4.53613 57H64.7361L64.0361 65H5.23613Z" fill="#5E3517"/>
+<path class="inner" fill-rule="evenodd" clip-rule="evenodd" d="M4.53594 58L3.83594 49H65.4359L64.7359 58H4.53594Z" fill="#5E3517"/>
+<path class="inner" fill-rule="evenodd" clip-rule="evenodd" d="M3.92324 50L3.13574 41H66.1357L65.3482 50H3.92324Z" fill="#5E3517"/>
+<path class="inner" fill-rule="evenodd" clip-rule="evenodd" d="M3.22305 42L2.43555 33H66.8356L66.0481 42H3.22305Z" fill="#5E3517"/>
+<path class="inner" fill-rule="evenodd" clip-rule="evenodd" d="M2.52285 34L1.73535 25H67.5354L66.7479 34H2.52285Z" fill="#5E3517"/>
+<path class="inner" fill-rule="evenodd" clip-rule="evenodd" d="M1.73516 26L1.03516 17H68.2352L67.5352 26H1.73516Z" fill="#5E3517"/>
+<path class="glass" fill-rule="evenodd" clip-rule="evenodd" d="M4.0003 4H65.2697L60.8651 54.3386C59.0633 59.8073 54.2934 63.769 48.635 63.9902V64H48.135H21.135H20.635V63.9902C14.9766 63.769 10.2068 59.8073 8.40493 54.3386L4.0003 4ZM4.01002 50L0.0155284 4.34866C-0.189031 2.01086 1.65356 0 4.0003 0H65.2697C67.6165 0 69.4591 2.01086 69.2545 4.34866L65.26 50L62.9545 76.3487C62.7737 78.4148 61.0437 80 58.9697 80H10.3003C8.2263 80 6.49632 78.4148 6.31553 76.3487L4.01002 50Z" fill="#D9D9D9"/>
+</svg>

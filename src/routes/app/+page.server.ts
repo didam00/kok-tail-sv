@@ -1,3 +1,5 @@
+export const prerender = true;
+
 let bottles = [
   {
     name: 'Jack Daniel\'s',

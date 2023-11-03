@@ -5,28 +5,31 @@
   import down10_button from '$lib/images/down10_button.svg';
   import down100_button from '$lib/images/down100_button.svg';
 
-  let images: string[] = [];
-
   export let data;
 
   // 좌클릭으로 추가 우클릭으로 제거
   // 모바일에서는 드래그 위/아래로 추가/제거
   // 우측 상단 삭제 버튼으로 삭제 가능
+
+  function focusBottle(bottle_name: string): void {
+    (document.querySelector('.backdrop-blur') as HTMLDivElement).classList.add('active');
+  }
 </script>
+<div class="koktail-button">kok-tail!</div>
+
 <div class="bottles-frame">
   {#each data.bottles as bottle (bottle)}
-    <div class="bottle-container">
-      <img class="{bottle.name} bottles"
-      src="/src/lib/images/bottles/{bottle.src}.svg"
-      alt={bottle.name}>
-      <!-- <img class="{bottle.name} bottles-back"
-      src="/src/lib/images/bottles/{bottle.src}.svg"
-      alt="{bottle.name}-back"> -->
+    <div class="bottle-container {bottle.key}">
+      <img
+        class="{bottle.key} bottles"
+        alt={bottle.name}
+        src={`/images/bottles/${bottle.src}.svg`}
+      />
 
       <div class="caption">
         <span class="name">{bottle.name}</span>
         <span class="ml">{bottle.ml}mL</span>
-        <input type="checkbox" name="select-bottles">
+        <input type="checkbox" name={bottle.key} class="select-bottles">
       </div>
 
       <div class="controller">
@@ -45,7 +48,6 @@
 
 <style lang="scss">
   @import "./mixin";
-
   $BOTTLE_CONT_WIDTH: 100px;
 
   .koktail-button {
@@ -57,16 +59,19 @@
     color: $white;
     background-color: $background-black;
     border: 2px solid $white;
-    font-size: 15px;
+    font-size: 16px;
     font-weight: 700;
-    padding: 10px 25px;
+    padding: 9px 24px;
     border-radius: (15px + 10px);
     cursor: pointer;
     transition: all 180ms;
 
     &:hover {
-      background-color: $white;
-      color: $background-black;
+      /* background-color: $white;
+      color: $background-black; */
+      color: $white;
+      background-color: $point-pink;
+      border-color: $point-pink;
     }
   }
 
@@ -76,7 +81,7 @@
     transform: translateX(-50%);
     left: calc(50% + 40px);
     bottom: calc(15% + 100px);
-    width: calc(100% - 80px);
+    width: 100%;
     height: 400px;
     justify-content: center;
     align-items: flex-end;
@@ -88,7 +93,6 @@
     }
 
     .bottle-container {
-
       display: flex;
       width: $BOTTLE_CONT_WIDTH;
 
@@ -101,7 +105,7 @@
       .bottles-back {
         opacity: 0.25;
         position: absolute;
-        margin-left: $BOTTLE_CONT_WIDTH / 2;
+        margin-left: calc($BOTTLE_CONT_WIDTH / 2);
         transform: translateX(-50%);
         transition: all 180ms;
       }
@@ -136,8 +140,7 @@
         line-height: 22px;
         width: $BOTTLE_CONT_WIDTH;
         transition: all 180ms;
-        letter-spacing: -1px;
-  
+        
         .name {
           color: $white;
           opacity: 25%;
@@ -148,7 +151,7 @@
           opacity: 25%;
         }
 
-        input[name=select-bottles] {
+        input.select-bottles {
           position: absolute;
           top: 90px;
           left: 50%;
@@ -165,7 +168,7 @@
           transition: all 150ms;
           
           &:hover {
-            border-color: gray;
+            border-color: $white;
           }
 
           &:checked {
@@ -187,6 +190,7 @@
       bottom: 40px;
       cursor: pointer;
       transition: all 80ms;
+      transform: translateX(calc(($BOTTLE_CONT_WIDTH + 20px) / 2 - 50%));
 
       &:hover {
         filter: brightness(50%);
