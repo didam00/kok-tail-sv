@@ -2,20 +2,60 @@
   import arrow_icon from "$lib/images/arrow.svg";
   import search_icon from "$lib/images/search-icon.svg";
   import { alcohols_data } from "../../data/alcohols";
+
+  interface Alcohol {
+    name: string;
+    key: string;
+    src: string;
+    color: string;
+    description: string;
+  }
+
+  interface SearchOption {
+    key: string;
+    value?: string;
+    range?: [number, number],
+    inlclude?: boolean;
+  }
+
+  let search_text: string;
+  let search_result: Alcohol[] = [...alcohols_data];
+  
+  /** Type Guard for key in alcohol */
+  function isKeyOfAlcohol(key: string, alcohol: Alcohol): key is keyof Alcohol {
+    return key in alcohol;
+  }
+
+  function searchAlcohol(options: SearchOption[]) {
+    let results: Alcohol[] = [...alcohols_data];
+
+    for (let option of options) {
+      if ('value' in option) {
+        results = results.filter((alcohol: Alcohol) => {
+          if (isKeyOfAlcohol(option.key, alcohol)) {
+            /** nullish coalescing 연산자를 이용 */
+            return (alcohol[option.key].toLowerCase()).includes((option.value?.toLowerCase()) ?? "");
+          }
+        });
+      }
+    }
+
+    search_result = results.sort();
+  }
 </script>
 
 <label class="search-area">
-  <input type="text" class="area">
+  <input type="text" bind:value={search_text} class="area" on:input={function () {searchAlcohol([{key: "name", value: this.value}])}}>
   <input type="image" src={search_icon} alt="search icon" class="search-icon">
 </label>
 <div class='info-box'>
-  {#each alcohols_data as alcohol (alcohol)}
-    <div class="{alcohol.key} alchol-container">
-      <img class="alchol-img" src="/images/bottles/{alcohol.src}.svg" alt="">
-      <div class="name">{alcohol.name}</div>
-      <div class="description">{alcohol.description}</div>
-      <img class="arrow-icon" src={arrow_icon} alt="arrow icon">
-    </div>
+  {#each search_result as alcohol (alcohol)}
+  <div class="{alcohol.key} alchol-container">
+    <img class="alchol-img" src="/images/bottles/{alcohol.src}.svg" alt="">
+    <div class="name">{alcohol.name}</div>
+    <div class="description">{alcohol.description}</div>
+    <img class="arrow-icon" src={arrow_icon} alt="arrow icon">
+  </div>
   {/each}
 </div>
 
@@ -27,6 +67,7 @@
     height: calc(100vh - (44px + 48px + 24px));
     margin: 0 auto;
     overflow-y: scroll;
+    min-width: 800px;
 
     .alchol-container {
       position: relative;

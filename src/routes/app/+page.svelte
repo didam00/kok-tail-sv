@@ -1,42 +1,63 @@
 <script lang="ts">
   import add_bottle_icon from '$lib/images/add_bottle_icon.svg';
-  import up10_button from '$lib/images/up10_button.svg';
-  import up100_button from '$lib/images/up100_button.svg';
-  import down10_button from '$lib/images/down10_button.svg';
-  import down100_button from '$lib/images/down100_button.svg';
+
+  import up_icon from '$lib/images/up_icon.svg';
+  import down_icon from '$lib/images/down_icon.svg';
 
   export let data;
 
-  // 좌클릭으로 추가 우클릭으로 제거
+  // 좌클릭하면 해당 요소가 어두워지고 가운데에 잔량 표시
+  // 스크롤하여 잔량을 조절 가능
   // 모바일에서는 드래그 위/아래로 추가/제거
   // 우측 상단 삭제 버튼으로 삭제 가능
 
-  function focusBottle(bottle_name: string): void {
-    (document.querySelector('.backdrop-blur') as HTMLDivElement).classList.add('active');
+  function focusBottle(bottle_key: string) {
+    const bottle = document.querySelector(`.${bottle_key}`) as HTMLElement;
+    bottle.classList.add('focused');
+  }
+
+  async function unfocusBottle(bottle_key: string) {
+    const bottle = document.querySelector(`.${bottle_key}`) as HTMLElement;
+    bottle.classList.remove('focused');
   }
 </script>
 <div class="koktail-button">kok-tail!</div>
 
 <div class="bottles-frame">
   {#each data.bottles as bottle (bottle)}
-    <div class="bottle-container {bottle.key}">
+    <div class="bottle-container {bottle.key}"
+      on:pointerdown={() => focusBottle(bottle.key)}
+      on:pointerleave={() => unfocusBottle(bottle.key)}
+    >
       <img
         class="{bottle.key} bottles"
         alt={bottle.name}
         src={`/images/bottles/${bottle.src}.svg`}
       />
 
+      <div class="focus-ml" on:wheel={
+        (event) => {
+          const val = event.deltaY;
+          const unit = event.shiftKey ? 1 : 10;
+          if (val > 0) {
+            bottle.ml -= unit;
+          } else {
+            bottle.ml += unit;
+          }
+          if (bottle.ml < 0) {
+            bottle.ml = 0;
+          }
+        }
+      } class:empty={bottle.ml <= 0}>
+        <img src={up_icon} alt="up icon">
+        <span class="ml">{bottle.ml}mL</span>
+        <img src={down_icon} alt="down icon">
+      </div>
+
       <div class="caption">
         <span class="name">{bottle.name}</span>
         <span class="ml">{bottle.ml}mL</span>
         <input type="checkbox" name={bottle.key} class="select-bottles">
-      </div>
-
-      <div class="controller">
-        <img class="up100-button" src={up100_button} alt="add 100ml">
-        <img class="up10-button" src={up10_button} alt="add 10ml">
-        <img class="down10-button" src={down10_button} alt="substract 10ml">
-        <img class="down100-button" src={down100_button} alt="substract 100ml">
       </div>
     </div>
   {/each}
@@ -93,13 +114,47 @@
     }
 
     .bottle-container {
+      position: relative;
       display: flex;
       width: $BOTTLE_CONT_WIDTH;
+
+      &.focused {
+        .focus-ml {
+          opacity: 1;
+          display: flex;
+        }
+
+        img {
+          opacity: 33%;
+        }
+      }
+      
+      .focus-ml {
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+
+        opacity: 0;
+
+        .ml {
+          color: $white;
+          font-weight: 700;
+        }
+
+        &.empty .ml {
+          color: $red;
+        }
+      }
 
       .bottles {
         margin: 0 auto;
         transition: all 180ms;
-        cursor: pointer;
       }
 
       .bottles-back {

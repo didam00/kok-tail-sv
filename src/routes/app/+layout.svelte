@@ -15,7 +15,7 @@
   }
 
   const side_bar_col: SideBarTab[] = [
-    new SideBarTab("fridge", fridge_icon, "/"),
+    new SideBarTab("fridge", fridge_icon, ""),
     new SideBarTab("search-cocktail", cup_icon, "/cocktail"),
     new SideBarTab("search-alcohol", bottle_icon, "/alcohol"),
     new SideBarTab("add-recipe", add_icon, "/add-recipe"),
@@ -46,46 +46,42 @@
   </nav>
 </div>
 
-<div class="backdrop-blur"></div>
+<div class="hide-back hide"></div>
 
-<slot />
+<div class="slot-container">
+  <slot />
+</div>
 
 <style lang='scss'>
   @import "./mixin";
+
+  $SIDE-BAR-WIDTH: 80px;
 
   :root {
     margin: 0;
     background-color: $background-black;
   }
 
-  .backdrop-blur {
+  .hide-back {
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100%;
     background: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(16px);
     z-index: 90;
-    display: none;
-    opacity: 0;
     transition: all 250ms;
-  }
-
-  .backdrop-blur.active {
-    display: block;
-    opacity: 1;
   }
 
   .side-bar {
     position: fixed;
     bottom: 0;
     left: 0;
-    width: 80px;
+    width: $SIDE-BAR-WIDTH;
     height: 100%;
     background: $background-black;
     border-right: 2px solid $bright-black;
-    z-index: 99;
+    z-index: 89;
 
     nav {
       display: flex;
@@ -127,10 +123,12 @@
     
   }
 
-  .container {
-    position: absolute;
-    width: calc(100vw - 80px);
-    height: 100vh;
-    right: 0;
+  .slot-container {
+    margin: 0 $SIDE-BAR-WIDTH;
+  }
+
+  .hide {
+    opacity: 0;
+    display: none;
   }
 </style>

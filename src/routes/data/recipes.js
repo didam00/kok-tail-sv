@@ -1,14 +1,14 @@
-export const recipe_data = [
+export const recipes_data = [
   {
     name: "베일리스 밀크",
     key: "baileys_milk",
     glass: "rock_glass",
     color: ["#BD9E70"],
     proof: 5,
-    recipe: {
-      baileys: 1,
-      milk: 3,
-    },
+    recipe: [
+      ["milk", 3],
+      ["baileys", 1],
+    ]
   },
   {
     name: "샹그리아",
@@ -146,6 +146,29 @@ export const recipe_data = [
     proof: 0,
     recipe: {
 
+    },
+  },
+  {
+    name: "잭콕",
+    key: "jack_and_coke",
+    glass: "rock_glass",
+    color: ["#420810"],
+    proof: 0,
+    recipe: {
+      jack_daniel: 45,
+      coke: 0, // full up
+    },
+  },
+  {
+    name: "체리 럼 콕",
+    key: "cherry_rum_coke",
+    glass: "pilsner_glass",
+    color: ["#551d1b"],
+    proof: 0,
+    recipe: {
+      white_rum: 30,
+      cherry_juice: 15,
+      coke: -1, // 적당량
     },
   },
 ]

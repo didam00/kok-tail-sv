@@ -20,8 +20,8 @@ export const glasses_data = [
     key: "pilsner_glass",
   },
   {
-    name: "마티니 글라스",
-    key: "martini_glass",
+    name: "칵테일 글라스",
+    key: "cocktail_glass",
   },
   {
     name: "마가리타 글라스",
