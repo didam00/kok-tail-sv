@@ -1,24 +1,39 @@
-### 콕(kok)-테일
+# create-svelte
 
-군산대학교 소프트웨어학부 1학기 기초웹프로그래밍 개인 프로젝트 과제물입니다.
+Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
 
----
+## Creating a project
 
-### 추가할 것들
+If you're seeing this, you've probably already done this step. Congrats!
 
-- 냉장고 탭: 주류 추가 버튼
-- 냉장고 탭: 가지고 있는 주류 바탕으로 칵테일을 추천해주는 (kok-tail!) 버튼
-- 칵테일 탭: 각 각테일에 대한 설명 창
-- 칵테일 탭: 상세한 필터 기능
-- 주류 탭: 각 주류에 대한 설명 창
-- 주류 탭: 상세한 필터 기능
-- 추가 탭: 재료 량 조절
-- 추가 탭: submit 버튼 완성
-- 개인 탭: 내 프로필
-- 개인 탭: 내가 만든 칵테일들 관리
-- 개인 탭: 설정 창 추가
-- 전체: 데이터베이스 연결
-- 전체: 회원가입 구현
-- 전체: 반응형 웹페이지
-- 전체: 하이브리드 앱으로 변환
-- 전체: SVG에 애니메이션(모션 그래픽) 추가
+```bash
+# create a new project in the current directory
+npm create svelte@latest
+
+# create a new project in my-app
+npm create svelte@latest my-app
+```
+
+## Developing
+
+Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+
+```bash
+npm run dev
+
+# or start the server and open the app in a new browser tab
+npm run dev -- --open
+```
+
+## Building
+
+To create a production version of your app:
+
+```bash
+npm run build
+```
+
+You can preview the production build with `npm run preview`.
+
+> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+"# kok-tail-sv" 
