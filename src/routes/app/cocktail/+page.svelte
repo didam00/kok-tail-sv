@@ -132,7 +132,7 @@
 
       .name {
         color: $bright-black;
-        font-size: 16px;
+        font-size: 1em;
         text-align: center;
         margin-top: 4px;
         padding: 8px;

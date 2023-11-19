@@ -36,32 +36,7 @@
     name: "",
     glass: "cocktail_glass",
     color: [],
-    materials: [
-      {
-        name: "잭 다니엘",
-        key: "jack_daniel",
-        ml: 15,
-        color: "#a35d35"
-      },
-      {
-        name: "토닉 워터",
-        key: "tonic_water",
-        ml: 50,
-        color: "#b5bec4"
-      },
-      {
-        name: "Jim Beam",
-        key: "jimbeam",
-        ml: 40,
-        color: "#c3864a"
-      },
-      {
-        name: "소주",
-        key: "soju",
-        ml: 25,
-        color: "#47763f"
-      },
-    ],
+    materials: [],
     description: "",
   }
   
@@ -152,6 +127,13 @@
     updateCocktail();
   }
 
+  function deleteMaterial(material: Material) {
+    const idx = cocktail.materials.indexOf(material);
+    cocktail.materials.splice(idx, 1);
+
+    updateCocktail()
+  }
+
   onMount(() => {
     document.querySelector("input#"+cocktail.glass)?.setAttribute("checked", "checked");
   })
@@ -212,7 +194,7 @@
             <img class="grab-icon" src="/images/menu.svg" alt={material.key}>
             <span class="name">{material.name}</span>
             <span class="ml">{material.ml}mL</span>
-            <span class="material-icons delete-icon">&#xe5cd;</span>
+            <button class="material-icons delete-icon" on:click={() => {deleteMaterial(material)}}>&#xe5cd;</button>
           </li>
           {/each}
           <button class="add-material" on:click={() => showAddMaterialWin(true)}>
@@ -292,7 +274,7 @@
   .settings-container .create-name {
     border-bottom: 1px solid $active-black;
     padding: 20px 22px;
-    font-size: 22px;
+    font-size: 1.5em;
     font-weight: 700;
     margin: 6px 0px 4px 0px;
     color: $white;
@@ -431,7 +413,7 @@
       span {
         display: inline-block;
         /* position: absolute; */
-        font-size: 14px;
+        font-size: 1em;
         font-weight: 600;
         color: $white;
         transition: all 80ms;
@@ -456,9 +438,19 @@
         position: absolute;
         font-weight: 800;
         cursor: pointer;
-        right: 16px;
+        right: 4px;
         font-size: 1.2em;
-        top: calc(50% - 0.5em);
+        top: 50%;
+        translate: 0 -50%;
+        padding: 12px;
+        transition: all 150ms;
+        background: none;
+        border: none;
+        color: $white;
+
+        &:hover {
+          opacity: 25%;
+        }
       }
 
       &:has(> .delete-icon) {
@@ -496,7 +488,7 @@
     position: fixed;
     right: 112px;
     bottom: 32px;
-    font-size: 16px;
+    font-size: 1em;
     color: $white;
     background: $point-pink;
     border: none;
@@ -579,6 +571,7 @@
           color: $white;
           cursor: pointer;
           font-weight: 600;
+          width: 100%;
         }        
       }
     }

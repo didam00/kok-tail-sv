@@ -80,7 +80,7 @@
     color: $white;
     background-color: $background-black;
     border: 2px solid $white;
-    font-size: 16px;
+    font-size: 1em;
     font-weight: 700;
     padding: 9px 24px;
     border-radius: (15px + 10px);
@@ -191,7 +191,7 @@
         top: 100%;
         text-align: center;
         margin-top: 10px;
-        font-size: 15px;
+        font-size: 0.9em;
         line-height: 22px;
         width: $BOTTLE_CONT_WIDTH;
         transition: all 180ms;

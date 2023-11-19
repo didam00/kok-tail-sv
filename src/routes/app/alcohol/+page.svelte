@@ -68,13 +68,14 @@
     margin: 0 auto;
     overflow-y: scroll;
     min-width: 800px;
+    gap: 16px;
 
     .alchol-container {
       position: relative;
-      border-bottom: 1px solid $active-black;
+      /* border-bottom: 1px solid $active-black; */
       padding-right: 16px;
       box-sizing: border-box;
-      transition: all 100ms;
+      transition: none;
 
       &:last-child {
         border-bottom: none;
@@ -88,7 +89,6 @@
       }
       
       .name, .description {
-        font-size: 16px;
         padding: 4px 0;
       }
 
