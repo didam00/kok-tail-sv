@@ -225,7 +225,6 @@
   </div>
 </div>
 
-<link rel="stylesheet" href="style.css">
 <style lang="scss">
 
   .custom-cocktail {
