@@ -7,6 +7,7 @@
   import { onMount } from "svelte";
   import { glasses_data } from "../../data/glasses";
   import { alcohols_data } from "../../data/alcohols";
+  import MaterialWindow from "../MaterialWindow.svelte";
 
   interface Material {
     name: string;
@@ -90,22 +91,7 @@
     }
   }
 
-  function showAddMaterialWin(show?: boolean) {
-    const win = document.querySelector(".add-material-window") as HTMLDivElement;
-    if (show == null) show = win.classList.contains("hide");
-
-    if (show) {
-      win.classList.remove("hide");
-      document.querySelector(".hide-back")?.classList.remove("hide");
-    } else {
-      win.classList.add("hide");
-      document.querySelector(".hide-back")?.classList.add("hide");
-    }
-  }
-
-  function applyAddMaterials() {
-    const checksElements = [...document.querySelectorAll(".add-material-window .material-list input[name='materials']:checked")] as HTMLInputElement[]
-
+  function applyAddMaterials(checksElements: HTMLInputElement[]) {
     for (let element of checksElements) {
       const key = element.id.slice('material-list-'.length);
       const data = alcohols_data.filter(a => a.key == key);
@@ -132,6 +118,19 @@
     cocktail.materials.splice(idx, 1);
 
     updateCocktail()
+  }
+
+  function showAddMaterialWin(show?: boolean) {
+    const win = document.querySelector(".add-material-window") as HTMLDivElement;
+    if (show == null) show = win.classList.contains("hide");
+
+    if (show) {
+      win.classList.remove("hide");
+      document.querySelector(".hide-back")?.classList.remove("hide");
+    } else {
+      win.classList.add("hide");
+      document.querySelector(".hide-back")?.classList.add("hide");
+    }
   }
 
   onMount(() => {
@@ -208,22 +207,7 @@
   <div class="scroll-cover"></div>
 </section>
 
-<div class="add-material-window hide">
-  <h3 class="title">재료 선택</h3>
-  <ul class="material-list">
-    {#each alcohols_data as alcohol (alcohol)}
-    <div class="material-box">
-      <input type="checkbox" name="materials" id="material-list-{alcohol.key}" class={alcohol.key}>
-      <label for="material-list-{alcohol.key}" class="fake-checkbox"></label>
-      <label for="material-list-{alcohol.key}" class="name">{alcohol.name}</label>
-    </div>
-    {/each}
-  </ul>
-  <div class="button-container">
-    <button class="continue" on:click={() => {showAddMaterialWin(false); applyAddMaterials();}}>완료</button>
-    <button class="cancle" on:click={() => {showAddMaterialWin(false);}}>취소</button>
-  </div>
-</div>
+<MaterialWindow callback={applyAddMaterials} />
 
 <style lang="scss">
 
@@ -389,6 +373,24 @@
     }
   }
 
+  .submit-option {
+    position: fixed;
+    right: 112px;
+    bottom: 32px;
+    font-size: 1em;
+    color: $white;
+    background: $point-pink;
+    border: none;
+    border-radius: 6px;
+    padding: 9px 32px;
+    font-weight: 700;
+    cursor: pointer;
+    z-index: 51;
+
+    &:hover {
+      background: $dark-point-pink;
+    }
+  }
   .settings-container .select-material {
     
     .material-list {
@@ -396,6 +398,7 @@
       flex-direction: column;
       gap: 12px;
       padding: 0;
+      list-style: none;
     }
 
     .material-list .material-box {
@@ -481,139 +484,5 @@
         filter: brightness(35%);
       }
     }
-  }
-
-  .submit-option {
-    position: fixed;
-    right: 112px;
-    bottom: 32px;
-    font-size: 1em;
-    color: $white;
-    background: $point-pink;
-    border: none;
-    border-radius: 6px;
-    padding: 9px 32px;
-    font-weight: 700;
-    cursor: pointer;
-    z-index: 51;
-
-    &:hover {
-      background: $dark-point-pink;
-    }
-  }
-
-  .add-material-window {
-    display: flex;
-    flex-direction: column;
-    opacity: 1;
-    position: fixed;
-    left: 50%; top: 50%;
-    translate: -50% -50%;
-    width: 540px;
-    padding: 24px 24px;
-    background: #00000088;
-    z-index: 99;
-    border-radius: 8px;
-    border: 1px solid $bright-black;
-    backdrop-filter: blur(16px);
-    box-shadow: 0px 6px 12px #00000080;
-
-    h3 {
-      color: $white;
-      font-size: 1.5em;
-      font-weight: 800;
-      text-align: center;
-      margin: 0;
-    }
-    
-    .material-list {
-      display: flex;
-      flex-direction: column;
-      list-style-type: none;
-      height: 320px;
-      width: 100%;
-      overflow-y: scroll;
-      padding: 0;
-      gap: 12px;
-
-      .material-box {
-        display: flex;
-        align-items: center;
-
-        input[type="checkbox"] {
-          display: none;
-          
-          &:hover {
-            + label.fake-checkbox {
-              border-color: $white;
-            }
-          }
-          
-          &:checked {
-            + label.fake-checkbox {
-              border-color: $white;
-              background: $white;
-            }
-          }
-        }
-        
-        label.fake-checkbox {
-          width: 8px;
-          height: 8px;
-          margin-right: 12px;
-          border-radius: 50%;
-          border: 2px solid $bright-black;
-          cursor: pointer;
-        }
-
-        label.name {
-          color: $white;
-          cursor: pointer;
-          font-weight: 600;
-          width: 100%;
-        }        
-      }
-    }
-
-    .button-container {
-      margin-left: auto; // 우측 정렬
-    }
-
-    button {
-      width: 80px;
-      font-size: 0.9em;
-      padding: 8px;
-      border-radius: 4px;
-      cursor: pointer;
-      font-weight: 700;
-      
-    }
-    
-    button.cancle {
-      border: 2px solid $bright-black;
-      background: transparent;
-      color: $bright-black;
-      padding: 6px;
-
-      &:hover {
-        background: $active-black;
-        color: gray;
-      }
-    }
-    
-    button.continue {
-      border: none;
-      color: $white;
-      background-color: $active-black;
-      
-      &:hover {
-        background-color: $bright-black;
-      }
-    }
-  }
-  
-  .hide {
-    display: none;
-    opacity: 0;
   }
 </style>

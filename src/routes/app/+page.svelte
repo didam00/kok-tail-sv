@@ -1,10 +1,14 @@
 <script lang="ts">
   import add_bottle_icon from '$lib/images/add_bottle_icon.svg';
-
   import up_icon from '$lib/images/up_icon.svg';
   import down_icon from '$lib/images/down_icon.svg';
 
+  import MaterialWindow from './MaterialWindow.svelte';
+  import { alcohols_data } from '../data/alcohols';
+
   export let data;
+
+  let hasBottles = [...data.bottles];
 
   // 좌클릭하면 해당 요소가 어두워지고 가운데에 잔량 표시
   // 스크롤하여 잔량을 조절 가능
@@ -20,11 +24,50 @@
     const bottle = document.querySelector(`.${bottle_key}`) as HTMLElement;
     bottle.classList.remove('focused');
   }
+
+  function showAddMaterialWin(show?: boolean) {
+    const win = document.querySelector(".add-material-window") as HTMLDivElement;
+    if (show == null) show = win.classList.contains("hide");
+
+    if (show) {
+      win.classList.remove("hide");
+      document.querySelector(".hide-back")?.classList.remove("hide");
+    } else {
+      win.classList.add("hide");
+      document.querySelector(".hide-back")?.classList.add("hide");
+    }
+  }
+
+  function applyAddAlcohols(checksElements: HTMLInputElement[]) {
+    const SLICELEN = 'material-list-'.length;
+    const keys = checksElements.map(ele => ele.id.slice(SLICELEN));
+
+    for (let key of keys) {
+      let alcohol = alcohols_data.find(o => o.key == key);
+
+      if (!alcohol) {
+        console.error("다음 키가 alcohols 데이터에 없습니다:"+key);
+        continue;
+      }
+
+      let newAlcohol = {
+        name: alcohol.name,
+        key: alcohol.key,
+        src: alcohol.src,
+        ml: 100,
+      }
+
+      hasBottles = [...hasBottles, newAlcohol];
+    }
+
+    console.log(hasBottles)
+  }
 </script>
+
 <div class="koktail-button">kok-tail!</div>
 
 <div class="bottles-frame">
-  {#each data.bottles as bottle (bottle)}
+  {#each hasBottles as bottle (bottle)}
     <div class="bottle-container {bottle.key}"
       on:pointerdown={() => focusBottle(bottle.key)}
       on:pointerleave={() => unfocusBottle(bottle.key)}
@@ -62,10 +105,12 @@
     </div>
   {/each}
 
-  <div class="add-bottle-container">
+  <button class="add-bottle-container" on:click={showAddMaterialWin}>
     <img class="add-bottle" src={add_bottle_icon} alt="add bottle icon">
-  </div>
+  </button>
+
 </div>
+<MaterialWindow callback={applyAddAlcohols}/>
 
 <style lang="scss">
   @import "./mixin";
@@ -239,6 +284,8 @@
     height: 100%;
     width: $BOTTLE_CONT_WIDTH + 20px;
     display: flex;
+    background: none;
+    border: none;
 
     .add-bottle {
       position: absolute;
