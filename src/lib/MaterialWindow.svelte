@@ -1,24 +1,24 @@
 <script lang="ts">
-  import { alcohols_data } from "../data/alcohols";
-
-  function showAddMaterialWin(show?: boolean) {
-    const win = document.querySelector(".add-material-window") as HTMLDivElement;
-    if (show == null) show = win.classList.contains("hide");
-
-    if (show) {
-      win.classList.remove("hide");
-      document.querySelector(".hide-back")?.classList.remove("hide");
-    } else {
-      win.classList.add("hide");
-      document.querySelector(".hide-back")?.classList.add("hide");
-    }
-  }
+  import { alcohols_data } from '$lib/data/alcohols';
 
   export let callback: Function;
+  export let active: boolean = false;
+
+  function showAddMaterialWin(show?: boolean) {
+    if (show === undefined) active = !active;
+    else active = show;
+
+    if (!active) {
+      const checkboxes = document.querySelectorAll(".add-material-window .material-list .material-box input") as NodeListOf<HTMLInputElement>;
+      for (let checkbox of checkboxes) {
+        checkbox.checked = false;
+      }
+    }
+  }
 </script>
 
-<div class="add-material-window hide">
-  <h3 class="title">재료 선택</h3>
+<div class="add-material-window center-window {active ? 'active' : ''}">
+  <h2 class="title">재료 선택</h2>
   <ul class="material-list">
     {#each alcohols_data as alcohol (alcohol)}
     <div class="material-box">
@@ -29,34 +29,20 @@
     {/each}
   </ul>
   <div class="button-container">
-    <button class="continue" on:click={function () {showAddMaterialWin(false); callback([...document.querySelectorAll(".add-material-window .material-list input[name='materials']:checked")])}}>완료</button>
+    <button class="continue" on:click={function () {callback([...document.querySelectorAll(".add-material-window .material-list input[name='materials']:checked")]); showAddMaterialWin(false);}}>완료</button>
     <button class="cancle" on:click={() => {showAddMaterialWin(false);}}>취소</button>
   </div>
 </div>
 
+<div class="hide-back {active ? 'active' : ''}"></div>
+
 <style lang="scss">
   .add-material-window {
-    display: flex;
+    display: none;
     flex-direction: column;
-    opacity: 1;
-    position: fixed;
-    left: 50%; top: 50%;
-    translate: -50% -50%;
-    width: 540px;
-    padding: 24px 24px;
-    background: #00000088;
-    z-index: 99;
-    border-radius: 8px;
-    border: 1px solid $bright-black;
-    backdrop-filter: blur(16px);
-    box-shadow: 0px 6px 12px #00000080;
-
-    h3 {
-      color: $white;
-      font-size: 1.5em;
-      font-weight: 800;
-      text-align: center;
-      margin: 0;
+    
+    &.active {
+      display: flex;
     }
     
     .material-list {
@@ -137,16 +123,11 @@
     button.continue {
       border: none;
       color: $white;
-      background-color: $active-black;
+      background-color: $point-green;
       
       &:hover {
-        background-color: $bright-black;
+        background-color: $dark-point-green;
       }
     }
-  }
-  
-  .hide {
-    display: none;
-    opacity: 0;
   }
 </style>

@@ -44,19 +44,6 @@ export const recipes_data = [
     },
   },
   {
-    name: "섹스 온 더 비치",
-    key: "sex_on_the_beach",
-    glass: "highball_glass",
-    color: ["#e1af2e", "#d9794a", "#de4b35"],
-    proof: 11,
-    recipe: {
-      orange_juice: 90,
-      vodka: 45,
-      peach_schnapps: 45,
-      cranberry_juice: 45,
-    },
-  },
-  {
     name: "진 토닉",
     key: "gin_tonic",
     glass: "highball_glass",

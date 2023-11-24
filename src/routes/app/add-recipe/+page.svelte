@@ -5,9 +5,9 @@
 
 <script lang="ts">
   import { onMount } from "svelte";
-  import { glasses_data } from "../../data/glasses";
-  import { alcohols_data } from "../../data/alcohols";
-  import MaterialWindow from "../MaterialWindow.svelte";
+  import { glasses_data } from "$lib/data/glasses";
+  import { alcohols_data } from "$lib/data/alcohols";
+  import MaterialWindow from "$lib/MaterialWindow.svelte";
 
   interface Material {
     name: string;
@@ -15,6 +15,8 @@
     ml: number;
     color: string;
   }
+
+  let showAddMaterialWin = false;
 
   const ChangeAnimatekeyframes = [
     {transform: "none"},
@@ -95,7 +97,6 @@
     for (let element of checksElements) {
       const key = element.id.slice('material-list-'.length);
       const data = alcohols_data.filter(a => a.key == key);
-      element.checked = false;
 
       if (data) {
         const newMaterial = {
@@ -120,21 +121,8 @@
     updateCocktail()
   }
 
-  function showAddMaterialWin(show?: boolean) {
-    const win = document.querySelector(".add-material-window") as HTMLDivElement;
-    if (show == null) show = win.classList.contains("hide");
-
-    if (show) {
-      win.classList.remove("hide");
-      document.querySelector(".hide-back")?.classList.remove("hide");
-    } else {
-      win.classList.add("hide");
-      document.querySelector(".hide-back")?.classList.add("hide");
-    }
-  }
-
   onMount(() => {
-    document.querySelector("input#"+cocktail.glass)?.setAttribute("checked", "checked");
+    document.querySelector("input#select-glass-"+cocktail.glass)?.setAttribute("checked", "checked");
   })
 </script>
 
@@ -196,7 +184,7 @@
             <button class="material-icons delete-icon" on:click={() => {deleteMaterial(material)}}>&#xe5cd;</button>
           </li>
           {/each}
-          <button class="add-material" on:click={() => showAddMaterialWin(true)}>
+          <button class="add-material" on:click={() => showAddMaterialWin = true}>
             <img src="/images/add_icon.svg" alt="add material">
           </button>
         </ul>
@@ -207,7 +195,8 @@
   <div class="scroll-cover"></div>
 </section>
 
-<MaterialWindow callback={applyAddMaterials} />
+<MaterialWindow callback={applyAddMaterials} bind:active={showAddMaterialWin}/>
+<!-- bind:active로 MaterialWindow의 active 변수와 연결! -->
 
 <style lang="scss">
 

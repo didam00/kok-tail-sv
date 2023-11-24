@@ -3,12 +3,12 @@
   import up_icon from '$lib/images/up_icon.svg';
   import down_icon from '$lib/images/down_icon.svg';
 
-  import MaterialWindow from './MaterialWindow.svelte';
-  import { alcohols_data } from '../data/alcohols';
+  import MaterialWindow from '$lib/MaterialWindow.svelte';
+  import { alcohols_data } from '$lib/data/alcohols';
 
   export let data;
 
-  let hasBottles = [...data.bottles];
+  let hasBottles = data.bottles;
 
   // 좌클릭하면 해당 요소가 어두워지고 가운데에 잔량 표시
   // 스크롤하여 잔량을 조절 가능
@@ -25,18 +25,20 @@
     bottle.classList.remove('focused');
   }
 
-  function showAddMaterialWin(show?: boolean) {
-    const win = document.querySelector(".add-material-window") as HTMLDivElement;
-    if (show == null) show = win.classList.contains("hide");
+  // function showAddMaterialWin(show?: boolean) {
+  //   const win = document.querySelector(".add-material-window") as HTMLDivElement;
+  //   if (show == null) show = win.classList.contains("hide");
 
-    if (show) {
-      win.classList.remove("hide");
-      document.querySelector(".hide-back")?.classList.remove("hide");
-    } else {
-      win.classList.add("hide");
-      document.querySelector(".hide-back")?.classList.add("hide");
-    }
-  }
+  //   if (show) {
+  //     win.classList.remove("hide");
+  //     document.querySelector(".hide-back")?.classList.remove("hide");
+  //   } else {
+  //     win.classList.add("hide");
+  //     document.querySelector(".hide-back")?.classList.add("hide");
+  //   }
+  // }
+
+  let showAddMaterialWin = false;
 
   function applyAddAlcohols(checksElements: HTMLInputElement[]) {
     const SLICELEN = 'material-list-'.length;
@@ -105,16 +107,16 @@
     </div>
   {/each}
 
-  <button class="add-bottle-container" on:click={showAddMaterialWin}>
+  <button class="add-bottle-container" on:click={() => {showAddMaterialWin = true}}>
     <img class="add-bottle" src={add_bottle_icon} alt="add bottle icon">
   </button>
 
 </div>
-<MaterialWindow callback={applyAddAlcohols}/>
+<MaterialWindow callback={applyAddAlcohols} bind:active={showAddMaterialWin}/>
 
 <style lang="scss">
   @import "./mixin";
-  $BOTTLE_CONT_WIDTH: 100px;
+  $BOTTLE_CONT_WIDTH: 120px;
 
   .koktail-button {
     position: absolute;
@@ -151,7 +153,7 @@
     height: 400px;
     justify-content: center;
     align-items: flex-end;
-    gap: 8px;
+    gap: 24px;
     flex-shrink: 0;
 
     ::scrollbar-width {
@@ -161,7 +163,7 @@
     .bottle-container {
       position: relative;
       display: flex;
-      width: $BOTTLE_CONT_WIDTH;
+      justify-content: center;
 
       &.focused {
         .focus-ml {

@@ -1,7 +1,7 @@
 <script lang="ts">
   import search_icon from "$lib/images/search-icon.svg";
   import { onMount, tick } from "svelte";
-  import { recipes_data } from "../../data/recipes";
+  import { recipes_data } from "$lib/data/recipes";
 
   interface Recipe {
     name: string;
@@ -85,7 +85,13 @@
 </script>
 
 <label class="search-area">
-  <input bind:value={search_text} type="text" class="area" on:input={function () {searchRecipe([{key: "name", value: this.value}])}}>
+  <input
+    type="text" 
+    class="area"
+    bind:value={search_text}
+    on:input={function () {searchRecipe([{key: "name", value: this.value}])}}
+    placeholder="검색어를 입력해주세요."
+  >
   <input type="image" src={search_icon} alt="search icon" class="search-icon">
 </label>
 
@@ -103,7 +109,7 @@
   .list-container {
     display: flex;
     margin: 0 auto;
-    overflow-y: scroll;
+    overflow-x: scroll;
     height: calc(100vh - (44px + 48px + 24px));
     width: calc(100% - 400px);
     flex-wrap: wrap;

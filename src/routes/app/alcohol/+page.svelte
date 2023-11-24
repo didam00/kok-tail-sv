@@ -1,7 +1,7 @@
 <script lang="ts">
   import arrow_icon from "$lib/images/arrow.svg";
   import search_icon from "$lib/images/search-icon.svg";
-  import { alcohols_data } from "../../data/alcohols";
+  import { alcohols_data } from "$lib/data/alcohols";
 
   interface Alcohol {
     name: string;
@@ -45,18 +45,32 @@
 </script>
 
 <label class="search-area">
-  <input type="text" bind:value={search_text} class="area" on:input={function () {searchAlcohol([{key: "name", value: this.value}])}}>
+  <input 
+    type="text" 
+    bind:value={search_text} 
+    class="area" 
+    on:input={function () {searchAlcohol([{key: "name", value: this.value}])}} 
+    placeholder="검색어를 입력해주세요."
+  >
   <input type="image" src={search_icon} alt="search icon" class="search-icon">
 </label>
 <div class='info-box'>
   {#each search_result as alcohol (alcohol)}
   <div class="{alcohol.key} alchol-container">
-    <img class="alchol-img" src="/images/bottles/{alcohol.src}.svg" alt="">
-    <div class="name">{alcohol.name}</div>
-    <div class="description">{alcohol.description}</div>
+    <div class="img-container">
+      <img class="alchol-img" src="/images/bottles/{alcohol.src}.svg" alt="">
+    </div>
+    <div class="detail-container">
+      <div class="name">{alcohol.name}</div>
+      <div class="description">{alcohol.description}</div>
+    </div>
     <img class="arrow-icon" src={arrow_icon} alt="arrow icon">
   </div>
   {/each}
+</div>
+
+<div class="alcohol-detail-window">
+  
 </div>
 
 <style lang='scss'>
@@ -68,39 +82,55 @@
     margin: 0 auto;
     overflow-y: scroll;
     min-width: 800px;
-    gap: 16px;
-
+    
     .alchol-container {
       position: relative;
       /* border-bottom: 1px solid $active-black; */
       padding-right: 16px;
       box-sizing: border-box;
-      transition: none;
+      transition: all 150ms;
+      display: flex;
+      cursor: pointer;
+      border-left: 3px solid $active-black;
 
       &:last-child {
         border-bottom: none;
       }
 
-      .alchol-img {
-        height: 80px;
-        width: 100px;
-        float: left;
-        margin: 24px 4px 24px 0px;
-      }
-      
-      .name, .description {
-        padding: 4px 0;
+      .img-container {
+        position: relative;
+        height: 140px;
+        width: 140px;
+
+        img {
+          position: absolute;
+          scale: 0.5;
+          left: 50%;
+          top: 50%;
+          translate: -50% -50%;
+          max-height: 200px;
+        }
       }
 
-      .name {
-        margin-top: 28px;
-        font-weight: 700;
-        color: $white;
-      }
-      
-      .description {
-        margin-bottom: 32px;
-        color: gray;
+      .detail-container {
+        .name, .description {
+          padding: 4px 0;
+        }
+  
+        .name {
+          margin-top: 28px;
+          font-weight: 700;
+          color: $gray;
+          /* color: $white; */
+          font-size: 1em;
+        }
+        
+        .description {
+          margin-bottom: 32px;
+          color: $bright-black;
+          /* color: $gray; */
+          font-size: 1em;
+        }
       }
 
       .arrow-icon {
@@ -113,14 +143,24 @@
         cursor: pointer;
         transition: all 180ms;
         padding: 24px;
-
-        &:hover {
+        filter: brightness(0.25);
+      }
+      
+      &:hover {
+        border-color: $bright-black;
+        /* translate: 4px 0; */
+        
+        .detail-container .name {
+          color: $white;
+        }
+        
+        .detail-container .description {
+          color: $gray;
+        }
+        
+        .arrow-icon {
           filter: brightness(0.5);
         }
-      }
-
-      &:hover {
-        background: #101010;
       }
     }
   }

@@ -46,8 +46,6 @@
   </nav>
 </div>
 
-<div class="hide-back hide"></div>
-
 <div class="slot-container">
   <slot />
 </div>
@@ -112,7 +110,7 @@
       width: 100%;
       bottom: 0;
       flex-direction: row;
-
+      
       .tab-icon {
         float: left;
       }
@@ -125,10 +123,5 @@
 
   .slot-container {
     margin: 0 $SIDE-BAR-WIDTH;
-  }
-
-  .hide {
-    opacity: 0;
-    display: none;
   }
 </style>
