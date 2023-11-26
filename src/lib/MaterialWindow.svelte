@@ -29,7 +29,7 @@
     {/each}
   </ul>
   <div class="button-container">
-    <button class="continue" on:click={function () {callback([...document.querySelectorAll(".add-material-window .material-list input[name='materials']:checked")]); showAddMaterialWin(false);}}>완료</button>
+    <button class="submit" on:click={function () {callback([...document.querySelectorAll(".add-material-window .material-list input[name='materials']:checked")]); showAddMaterialWin(false);}}>완료</button>
     <button class="cancle" on:click={() => {showAddMaterialWin(false);}}>취소</button>
   </div>
 </div>
@@ -117,16 +117,6 @@
       &:hover {
         background: $active-black;
         color: gray;
-      }
-    }
-    
-    button.continue {
-      border: none;
-      color: $white;
-      background-color: $point-green;
-      
-      &:hover {
-        background-color: $dark-point-green;
       }
     }
   }

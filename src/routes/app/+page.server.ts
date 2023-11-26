@@ -1,4 +1,4 @@
-export const prerender = true;
+// export const prerender = true;
 
 interface Bottle {
   name: string;
@@ -40,7 +40,7 @@ let bottles: Bottle[] = [
   // },
 ];
 
-export function load() {
+export async function load() {
   return {
     bottles
   };

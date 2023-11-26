@@ -30,13 +30,17 @@ $active-black: #181818;
 $bright-black: #303030;
 $brighter-black: #606060;
 $white: #d9d9d9;
+$active-white: #c0c0c0;
 $bright-point-pink: #d78080;
 $point-pink: #da5e5e;
 $dark-point-pink: #9f4646;
+$dark-white-point-green: #c4d8ca;
+$white-point-green: #d8f0df;
 $bright-point-green: #76cf8f;
 $point-green: #4da365;
 $dark-point-green: #3b7d4d;
 $black-point-green: #24482e;
+$warning-orange: #e77e38;
 $red: #db2d2d;
 $red5: #db2d2d80;
 $gray: #686868;
@@ -121,7 +125,7 @@ input[type="text"] {
     border: none;
     background: transparent;
     color: $white;
-    font-weight: 700;
+    font-weight: 600;
     font-size: 1em;
   }
 
@@ -188,4 +192,40 @@ input[type="text"] {
   width: 540px;
   z-index: 99;
   box-shadow: 0px 6px 12px #00000080;
+}
+
+.submit {
+  font-size: 1em;
+  background-color: $point-green;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 700;
+  color: $white-point-green;
+  padding: 12px 0;
+  transition: all 120ms;
+
+  &:hover {
+    color: $dark-white-point-green;
+    background-color: $dark-point-green;
+  }
+
+  &:disabled {
+    cursor: auto;
+    color: $white;
+    background-color: $bright-black;
+  }
+}
+
+.register-warning {
+  color: $warning-orange;
+  font-size: 0.8em;
+  margin: 4px 0 4px 10px;
+  
+  .material-icons {
+    color: $warning-orange;
+    font-size: 0.8em;
+    font-weight: 900;
+    margin-right: 4px;
+  }
 }

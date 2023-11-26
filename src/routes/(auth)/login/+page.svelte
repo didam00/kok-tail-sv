@@ -1,15 +1,19 @@
 <script lang="ts">
+  import { enhance } from '$app/forms';
   import { goto } from '$app/navigation';
+  import type { ActionData } from './$types';
+
+  export let form: ActionData;
 
   let id: string = '';
   let password: string = '';
 
   let id_valid: boolean = false;
   let password_valid: boolean = false;
+  let seePassword: boolean = false;
 
   const params = new URLSearchParams(window.location.search);
   const fromurl: string = params.get("url") ?? "./app";
-  console.log(fromurl);
 
   async function handleSubmit() {
     const response = await fetch('/api/login', {
@@ -28,6 +32,12 @@
     }
   }
 
+  function togglePassword() {
+    seePassword = !seePassword;
+    document.querySelector(".password")?.setAttribute("type", seePassword ? "text" : "password");
+    (document.querySelector(".see-password") as HTMLSpanElement).innerHTML = seePassword ? "&#xE8F4;" : "&#xE8F5;";
+  }
+
   $: {
     id_valid = id.match(/^[A-Za-z0-9_\-]{6,12}$/) !== null;
     // console.log(id_valid)
@@ -40,24 +50,42 @@
 
 <div class="center-window login-container">
   <a class="material-icons close-icon" href={fromurl}>&#xe5cd;</a>
-  <form class="login-form" action="post">
+  <form 
+    class="login-form"
+    action="?/login"
+    method="post"
+    use:enhance
+  >
     <div class="inputs">
-      <input
-        bind:value={id}
-        class="id" type="text" placeholder="아이디를 입력해주세요."
-        required
-        minlength="6"
-        maxlength="12"
-        pattern="^[A-Za-z0-9_\-]+$"
-      >
-      <input
-        bind:value={password}
-        class="psword" type="password" placeholder="비밀번호를 입력해주세요."
-        required
-        minlength="10"
-        maxlength="32"
-        pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d$@$!%*#?&]+$"
-      >
+      <div class="id-container">
+        <input
+          name="username"
+          bind:value={id}
+          class="id" type="text" placeholder="아이디를 입력해주세요."
+          required
+          minlength="6"
+          maxlength="12"
+          pattern="^[A-Za-z0-9_\-]+$"
+        >
+      </div>
+      {#if form?.cantFindUsername}
+        <p class="register-warning"><span class="material-icons">&#xE645;</span>해당하는 아이디를 찾을 수 없습니다.</p>
+      {/if}
+      <div class="password-container">
+        <input
+          name="password"
+          bind:value={password}
+          class="password" type="password" placeholder="비밀번호를 입력해주세요."
+          required
+          minlength="10"
+          maxlength="32"
+          pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d$@$!%*#?&]+$"
+        >
+        <span class="material-icons see-password" on:pointerdown={togglePassword}>&#xE8F5;</span>
+      </div>
+      {#if form?.incorrectPassword}
+        <p class="register-warning"><span class="material-icons">&#xE645;</span>비밀번호가 일치하지 않습니다.</p>
+      {/if}
     </div>
     <input
       class="submit" type="submit" value="로그인"
@@ -107,13 +135,18 @@
       margin-bottom: 24px;
     }
 
-    .id, .psword {
+    .id-container, .password-container {
+      position: relative;
+    }
+
+    .id, .password {
       padding: 16px 10px;
       border: none;
       background-color: transparent;
       border-bottom: 2px solid $active-black;
       font-size: 1.2em;
       transition: all 150ms;
+      width: calc(100% - 20px);
 
       &:focus {
         border-color: $bright-black;
@@ -124,24 +157,22 @@
       }
     }
 
-    .submit {
-      font-size: 1em;
-      background-color: $point-green;
-      border: none;
-      border-radius: 6px;
+    .password-container .see-password {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      translate: 0 -50%;
       cursor: pointer;
-      font-weight: 800;
-      color: $white;
-      padding: 12px 0;
-      transition: all 120ms;
+      color: $active-black;
 
       &:hover {
-        background-color: $dark-point-green;
+        color: $bright-black;
       }
 
-      &:disabled {
-        background-color: $bright-black;
-      }
+    }
+
+    .submit {
+      /*  */
     }
   }
 

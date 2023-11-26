@@ -462,7 +462,7 @@
       background: $background-black;
       border: 2px solid $white;
       border-radius: 20px;
-      filter: brightness(25%);
+      filter: brightness(15%);
       cursor: pointer;
 
       img {
@@ -470,7 +470,7 @@
       }
 
       &:hover {
-        filter: brightness(35%);
+        filter: brightness(25%);
       }
     }
   }

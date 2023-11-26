@@ -7,6 +7,7 @@
   import { alcohols_data } from '$lib/data/alcohols';
 
   export let data;
+  console.log(data);
 
   let hasBottles = data.bottles;
 

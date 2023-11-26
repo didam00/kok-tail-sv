@@ -91,7 +91,7 @@
       transition: all 150ms;
       display: flex;
       cursor: pointer;
-      border-left: 3px solid $active-black;
+      border-left: 2px solid transparent;
 
       &:last-child {
         border-bottom: none;
@@ -147,7 +147,7 @@
       }
       
       &:hover {
-        border-color: $bright-black;
+        border-color: $gray;
         /* translate: 4px 0; */
         
         .detail-container .name {

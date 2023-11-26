@@ -1,5 +1,10 @@
 <script lang="ts">
+  import { enhance } from '$app/forms';
   import { goto } from '$app/navigation';
+  import type { ActionData } from './$types';
+  // import { post } from '../api/register';
+
+  export let form: ActionData;
 
   let id: string = '';
   let password: string = '';
@@ -8,49 +13,57 @@
   
   let id_valid: boolean = false;
   let password_valid: boolean = false;
+  let nickname_valid: boolean = false;
   let email_valid: boolean = false;
 
   const params = new URLSearchParams(window.location.search);
   const fromurl: string = params.get("url") ?? "./app";
 
-  async function handleSubmit() {
-    const response = await fetch('/api/register', {
-      method: 'POST',
-      headers: {
-        'Content-Type' : 'application/json'
-      },
-      body: JSON.stringify({
-        id, email, password, nickname
-      })
-    });
+  // async function handleSubmit() {
+  //   const response = await fetch('http://localhost:5174/api/register', {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type' : 'application/json'
+  //     },
+  //     body: JSON.stringify({
+  //       id, password, nickname, email
+  //     })
+  //   });
 
-    const { success } = await response.json();
+  //   const { success } = await response.json();
 
-    if (success) {
-    } else {
-      console.error("회원가입에 실패하였습니다.")
-    }
-  }
+  //   if (success) {
+  //   } else {
+  //     console.error("회원가입에 실패하였습니다.")
+  //   }
+  // }
 
   $: {
     id_valid = id.match(/^[A-Za-z0-9_\-]{6,12}$/) !== null;
-    // console.log(id_valid)
   }
   $: {
-    password_valid = password.match(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d$@$!%*#?&]{10,32}$/) !== null;
-    // console.log(password_valid)
+    password_valid = password.match(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d$@$!%*#?&]{10,64}$/) !== null;
   }
   $: {
-    email_valid = email.match(/^[A-Za-z0-9_\-]+\@[A-Za-z0-9_\-]+\.[A-Za-z0-9_\-]+$/) !== null;
+    nickname_valid = nickname.match(/^[ㄱ-ㅎ가-힣A-Za-z0-9_\-]{2,20}$/) !== null;
+  }
+  $: {
+    email_valid = email.match(/^[A-Za-z0-9_\-]+\@[A-Za-z0-9_\-]+\.[A-Za-z]+$/) !== null;
   }
 </script>
 
 <div class="center-window register-container">
   <a class="material-icons close-icon" href={fromurl}>&#xe5cd;</a>
   <!-- <h2 class="title">로그인</h2> -->
-  <form class="register-form" action="post">
+  <form 
+    class="register-form"
+    action="?/register"
+    method="post"
+    use:enhance
+  >
     <div class="inputs">
       <input
+        name="nickname"
         bind:value={nickname}
         class="nickname" type="text" placeholder="당신의 호칭을 정해주세요."
         required
@@ -59,11 +72,16 @@
         pattern="^[ㄱ-ㅎ가-힣A-Za-z0-9_\-]+$"
       >
       <input
+        name="email"
         bind:value={email}
         class="email" type="email" placeholder="이메일 주소를 입력해주세요."
         required
       >
+      {#if form?.dup_email}
+        <p class="register-warning"><span class="material-icons">&#xE645;</span>해당 이메일로 가입된 정보가 존재합니다.</p>
+      {/if}
       <input
+        name="username"
         bind:value={id}
         class="id" type="text" placeholder="아이디를 입력해주세요."
         required
@@ -71,18 +89,25 @@
         maxlength="12"
         pattern="^[A-Za-z0-9_\-]+$"
       >
+      {#if form?.dup_username}
+        <p class="register-warning"><span class="material-icons">&#xE645;</span>이미 존재하는 아이디입니다.</p>
+      {/if}
       <input
-        bind:value={password}
-        class="psword" type="password" placeholder="비밀번호를 입력해주세요."
-        required
-        minlength="10"
-        maxlength="32"
-        pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d$@$!%*#?&]+$"
+      name="password"
+      bind:value={password}
+      class="password" type="password" placeholder="비밀번호를 입력해주세요."
+      required
+      minlength="10"
+      maxlength="64"
+      pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d$@$!%*#?&]+$"
       >
     </div>
+    {#if form?.invalid}
+      <p class="register-warning"><span class="material-icons">&#xE645;</span>값이 올바르지 않습니다.</p>
+    {/if}
     <input
       class="submit" type="submit" value="회원가입"
-      disabled={!id_valid || !password_valid}
+      disabled={!id_valid || !password_valid || !nickname_valid || !email_valid}
     >
   </form>
   <hr class="form-hr-ar">
@@ -128,7 +153,7 @@
       margin-bottom: 24px;
     }
 
-    .nickname, .email, .id, .psword {
+    .nickname, .email, .id, .password {
       padding: 16px 10px;
       border: none;
       background-color: transparent;
@@ -142,26 +167,6 @@
 
       &:valid {
         border-color: $black-point-green;
-      }
-    }
-
-    .submit {
-      font-size: 1em;
-      background-color: $point-green;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      font-weight: 800;
-      color: $white;
-      padding: 12px 0;
-      transition: all 120ms;
-
-      &:hover {
-        background-color: $dark-point-green;
-      }
-
-      &:disabled {
-        background-color: $bright-black;
       }
     }
   }

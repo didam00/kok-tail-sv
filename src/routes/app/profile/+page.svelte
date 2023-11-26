@@ -1,11 +1,18 @@
 <script lang="ts">
   import setting_icon from "$lib/images/menu.svg";
+  import { onMount } from "svelte";
   // import LoginWindow from "$lib/LoginWindow.svelte";
   // import RegisterWindow from "$lib/RegisterWindow.svelte";
 
   // let showLoginWin = false;
   // let showRegisterWin = false;
   let showMenubar = false;
+
+  let url: string;
+
+  onMount(() => {
+    url = window.location.href;
+  })
 </script>
 
 <div class="root-container">
@@ -16,7 +23,7 @@
     <div class="more-li-container {showMenubar ? '' : 'hide'}">
       <ul>
         <li class="settings"><button>설정</button></li>
-        <li class="login"><a href="../login?url={window.location.href}">로그인</a></li>
+        <li class="login"><a href="../login?url={url}">로그인</a></li>
       </ul>
     </div>
   </div>
