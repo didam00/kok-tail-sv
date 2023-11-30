@@ -1,0 +1,187 @@
+@import "./mixin";
+$ingredient_CONT_WIDTH: 120px;
+
+.koktail-button {
+  position: absolute;
+  z-index: 1;
+  top: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: $white;
+  background-color: $background-black;
+  border: 2px solid $white;
+  font-size: 1em;
+  font-weight: 700;
+  padding: 9px 24px;
+  border-radius: (15px + 10px);
+  cursor: pointer;
+  transition: all 180ms;
+
+  &:hover {
+    /* background-color: $white;
+    color: $background-black; */
+    color: $white;
+    background-color: $point-pink;
+    border-color: $point-pink;
+  }
+}
+
+.ingredients-frame {
+  display: flex;
+  position: absolute;
+  transform: translateX(-50%);
+  left: calc(50% + 40px);
+  bottom: calc(15% + 100px);
+  width: 100%;
+  height: 400px;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 24px;
+  flex-shrink: 0;
+  // overflow-x: auto;
+
+  ::scrollbar-width {
+    width: 0;
+  }
+
+  .ingredient-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+
+    &.focused {
+      .focus-ml {
+        opacity: 1;
+        display: flex;
+      }
+
+      img {
+        opacity: 33%;
+      }
+    }
+    
+    .focus-ml {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+
+      opacity: 0;
+
+      .ml {
+        color: $white;
+        font-weight: 700;
+      }
+
+      &.empty .ml {
+        color: $red;
+      }
+    }
+
+    .ingredients {
+      margin: 0 auto;
+      transition: all 180ms;
+    }
+
+    .ingredients-back {
+      opacity: 0.25;
+      position: absolute;
+      margin-left: calc($ingredient_CONT_WIDTH / 2);
+      transform: translateX(-50%);
+      transition: all 180ms;
+    }
+
+    &:hover .ingredients {
+      transform: translateY(-16px);
+    }
+
+    &:hover .ingredients-back {
+      transform: translateX(-50%) translateY(-16px);
+    }
+
+    .controller {
+      display: none;
+    }
+
+    &:hover .caption {
+      .name, .ml {
+        opacity: 100%;
+        /* letter-spacing: 0px; */
+      }
+    }
+    
+    .caption {
+      display: flex;
+      flex-direction: column;
+      position: absolute;
+      top: 100%;
+      text-align: center;
+      margin-top: 10px;
+      font-size: 0.9em;
+      line-height: 22px;
+      width: $ingredient_CONT_WIDTH;
+      transition: all 180ms;
+      
+      .name {
+        color: $white;
+        opacity: 25%;
+      }
+
+      .ml {
+        color: gray;
+        opacity: 25%;
+      }
+
+      input.select-ingredients {
+        position: absolute;
+        top: 90px;
+        left: 50%;
+        transform: translateX(-50%);
+        appearance: none;
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        border: 3px solid $bright-black;
+        box-sizing: border-box;
+        cursor: pointer;
+        margin: 0;
+
+        transition: all 150ms;
+        
+        &:hover {
+          border-color: $white;
+        }
+
+        &:checked {
+          border-color: $white;
+          background-color: $white;
+        }
+      }
+    }
+  }
+}
+
+.add-ingredient-container {
+  height: 100%;
+  width: $ingredient_CONT_WIDTH + 20px;
+  display: flex;
+  background: none;
+  border: none;
+
+  .add-ingredient {
+    position: absolute;
+    bottom: 40px;
+    cursor: pointer;
+    transition: all 80ms;
+    transform: translateX(calc(($ingredient_CONT_WIDTH + 20px) / 2 - 50%));
+
+    &:hover {
+      filter: brightness(50%);
+    }
+  }
+}

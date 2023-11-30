@@ -3,6 +3,10 @@
   import { onMount, tick } from "svelte";
   import { recipes_data } from "$lib/data/recipes";
 
+  export let data: {
+    CustomRecipes: {[key: string]: any}[]
+  };
+
   interface Recipe {
     name: string;
     key: string;
@@ -34,7 +38,21 @@
         svg: svg,
         color: recipe.color,
       };
-      recipes.push(r)
+      recipes.push(r);
+    }
+
+    for (const recipe of data.CustomRecipes) {
+      const res = await fetch(`/images/glasses/${recipe.glass}.svg`);
+      const svg_text = await res.text();
+      const parser = new DOMParser();
+      const svg = parser.parseFromString(svg_text, "image/svg+xml");
+      const r = {
+        name: recipe.name,
+        key: `custom_cocktail_${recipe.id}`,
+        svg: svg,
+        color: recipe.colors.split(","),
+      };
+      recipes.push(r);
     }
 
     search_result = [...recipes];

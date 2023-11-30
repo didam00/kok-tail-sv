@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { alcohols_data } from '$lib/data/alcohols';
+  import { ingredients_data } from '$lib/data/ingredients';
 
   export let callback: Function;
   export let active: boolean = false;
@@ -20,11 +20,11 @@
 <div class="add-material-window center-window {active ? 'active' : ''}">
   <h2 class="title">재료 선택</h2>
   <ul class="material-list">
-    {#each alcohols_data as alcohol (alcohol)}
+    {#each ingredients_data as ingredient (ingredient)}
     <div class="material-box">
-      <input type="checkbox" name="materials" id="material-list-{alcohol.key}" class={alcohol.key}>
-      <label for="material-list-{alcohol.key}" class="fake-checkbox"></label>
-      <label for="material-list-{alcohol.key}" class="name">{alcohol.name}</label>
+      <input type="checkbox" name="materials" id="material-list-{ingredient.key}" class={ingredient.key}>
+      <label for="material-list-{ingredient.key}" class="fake-checkbox"></label>
+      <label for="material-list-{ingredient.key}" class="name">{ingredient.name}</label>
     </div>
     {/each}
   </ul>

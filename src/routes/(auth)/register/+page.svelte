@@ -16,8 +16,16 @@
   let nickname_valid: boolean = false;
   let email_valid: boolean = false;
 
+  let seePassword: boolean = false;
+
   const params = new URLSearchParams(window.location.search);
   const fromurl: string = params.get("url") ?? "./app";
+
+  function togglePassword() {
+    seePassword = !seePassword;
+    document.querySelector(".password")?.setAttribute("type", seePassword ? "text" : "password");
+    (document.querySelector(".see-password") as HTMLSpanElement).innerHTML = seePassword ? "&#xE8F4;" : "&#xE8F5;";
+  }
 
   // async function handleSubmit() {
   //   const response = await fetch('http://localhost:5174/api/register', {
@@ -48,7 +56,8 @@
     nickname_valid = nickname.match(/^[ㄱ-ㅎ가-힣A-Za-z0-9_\-]{2,20}$/) !== null;
   }
   $: {
-    email_valid = email.match(/^[A-Za-z0-9_\-]+\@[A-Za-z0-9_\-]+\.[A-Za-z]+$/) !== null;
+    const regex =/^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+    email_valid = email.match(regex) !== null;
   }
 </script>
 
@@ -62,45 +71,54 @@
     use:enhance
   >
     <div class="inputs">
-      <input
-        name="nickname"
-        bind:value={nickname}
-        class="nickname" type="text" placeholder="당신의 호칭을 정해주세요."
-        required
-        minlength="2"
-        maxlength="20"
-        pattern="^[ㄱ-ㅎ가-힣A-Za-z0-9_\-]+$"
-      >
-      <input
-        name="email"
-        bind:value={email}
-        class="email" type="email" placeholder="이메일 주소를 입력해주세요."
-        required
-      >
+      <div class="nickname-container input-container">
+        <input
+          name="nickname"
+          bind:value={nickname}
+          class="nickname" type="text" placeholder="당신의 호칭을 정해주세요."
+          required
+          minlength="2"
+          maxlength="20"
+          pattern="^[ㄱ-ㅎ가-힣A-Za-z0-9_\-]+$"
+        >
+      </div>
+      <div class="email-container input-container">
+        <input
+          name="email"
+          bind:value={email}
+          class="email" type="email" placeholder="이메일 주소를 입력해주세요."
+          required
+        >
+      </div>
       {#if form?.dup_email}
         <p class="register-warning"><span class="material-icons">&#xE645;</span>해당 이메일로 가입된 정보가 존재합니다.</p>
       {/if}
-      <input
-        name="username"
-        bind:value={id}
-        class="id" type="text" placeholder="아이디를 입력해주세요."
-        required
-        minlength="6"
-        maxlength="12"
-        pattern="^[A-Za-z0-9_\-]+$"
-      >
+      <div class="username-container input-container">
+        <input
+          name="username"
+          bind:value={id}
+          class="id" type="text" placeholder="아이디를 입력해주세요."
+          required
+          minlength="6"
+          maxlength="12"
+          pattern="^[A-Za-z0-9_\-]+$"
+        >
+      </div>
       {#if form?.dup_username}
         <p class="register-warning"><span class="material-icons">&#xE645;</span>이미 존재하는 아이디입니다.</p>
       {/if}
-      <input
-      name="password"
-      bind:value={password}
-      class="password" type="password" placeholder="비밀번호를 입력해주세요."
-      required
-      minlength="10"
-      maxlength="64"
-      pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d$@$!%*#?&]+$"
-      >
+      <div class="password-container input-container">
+        <input
+          name="password"
+          bind:value={password}
+          class="password" type="password" placeholder="비밀번호를 입력해주세요."
+          required
+          minlength="10"
+          maxlength="64"
+          pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d$@$!%*#?&]+$"
+        >
+        <span class="material-icons see-password" on:pointerdown={togglePassword}>&#xE8F5;</span>
+      </div>
     </div>
     {#if form?.invalid}
       <p class="register-warning"><span class="material-icons">&#xE645;</span>값이 올바르지 않습니다.</p>
@@ -130,16 +148,6 @@
     }
   }
 
-  .close-icon {
-    position: absolute;
-    right: 12px;
-    top: 12px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    text-decoration: none;
-  }
-
   .register-form {
     display: flex;
     margin-top: 24px;
@@ -167,6 +175,27 @@
 
       &:valid {
         border-color: $black-point-green;
+      }
+    }
+
+    .input-container {
+      position: relative;
+
+      input {
+        width: calc(100% - 20px);
+      }
+    }
+
+    .password-container .see-password {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      translate: 0 -50%;
+      cursor: pointer;
+      color: $active-black;
+
+      &:hover {
+        color: $bright-black;
       }
     }
   }

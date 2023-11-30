@@ -5,10 +5,10 @@ export const recipes_data = [
     glass: "rock_glass",
     color: ["#BD9E70"],
     proof: 5,
-    recipe: [
-      ["milk", 3],
-      ["baileys", 1],
-    ]
+    recipe: {
+      milk: 3,
+      bailey: 1,
+    },
   },
   {
     name: "샹그리아",

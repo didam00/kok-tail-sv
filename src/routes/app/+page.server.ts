@@ -1,47 +1,26 @@
 // export const prerender = true;
 
-interface Bottle {
-  name: string;
-  key: string;
-  src: string;
-  ml: number;
+import { json, type RequestHandler } from "@sveltejs/kit";
+import type { PageServerLoad } from "../$types";
+import pool, { ControlDB } from "$lib/db";
+
+interface Ingredient {
+  keyname: string;
+  volume: number;
+  id: number,
 }
 
-let bottles: Bottle[] = [
-  // {
-  //   name: 'Jack Daniel\'s',
-  //   key: 'jack_daniel',
-  //   src: "jack_daniel",
-  //   ml: 540,
-  // },
-  // {
-  //   name: 'X-Rated',
-  //   key: 'xrated',
-  //   src: "xrated",
-  //   ml: 540,
-  // },
-  // {
-  //   name: 'Absolut Vodka',
-  //   key: 'absolut',
-  //   src: "absolut",
-  //   ml: 540,
-  // },
-  // {
-  //   name: 'Bacardi Carta Blanca',
-  //   key: 'bacardi_rum',
-  //   src: "bacardi_rum",
-  //   ml: 540,
-  // },
-  // {
-  //   name: 'Peachtree',
-  //   key: 'peachtree',
-  //   src: "peachtree",
-  //   ml: 540,
-  // },
-];
+export const load: PageServerLoad = async ({ locals, cookies }) => {
+  if (!('user' in locals)) {
+    return {
+      ingredients: []
+    }
+  }
 
-export async function load() {
+  const ingrdntData: any = await ControlDB.getAllUserIngrdnts(pool, (locals as any).user.username);
+  let ingredients: any[] = ingrdntData;
+
   return {
-    bottles
-  };
+    ingredients,
+  }
 }

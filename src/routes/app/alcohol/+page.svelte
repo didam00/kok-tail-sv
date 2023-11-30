@@ -1,9 +1,9 @@
 <script lang="ts">
   import arrow_icon from "$lib/images/arrow.svg";
   import search_icon from "$lib/images/search-icon.svg";
-  import { alcohols_data } from "$lib/data/alcohols";
+  import { ingredients_data } from "$lib/data/ingredients";
 
-  interface Alcohol {
+  interface ingredient {
     name: string;
     key: string;
     src: string;
@@ -19,22 +19,22 @@
   }
 
   let search_text: string;
-  let search_result: Alcohol[] = [...alcohols_data];
+  let search_result: ingredient[] = [...ingredients_data];
   
-  /** Type Guard for key in alcohol */
-  function isKeyOfAlcohol(key: string, alcohol: Alcohol): key is keyof Alcohol {
-    return key in alcohol;
+  /** Type Guard for key in ingredient */
+  function isKeyOfingredient(key: string, ingredient: ingredient): key is keyof ingredient {
+    return key in ingredient;
   }
 
-  function searchAlcohol(options: SearchOption[]) {
-    let results: Alcohol[] = [...alcohols_data];
+  function searchingredient(options: SearchOption[]) {
+    let results: ingredient[] = [...ingredients_data];
 
     for (let option of options) {
       if ('value' in option) {
-        results = results.filter((alcohol: Alcohol) => {
-          if (isKeyOfAlcohol(option.key, alcohol)) {
+        results = results.filter((ingredient: ingredient) => {
+          if (isKeyOfingredient(option.key, ingredient)) {
             /** nullish coalescing 연산자를 이용 */
-            return (alcohol[option.key].toLowerCase()).includes((option.value?.toLowerCase()) ?? "");
+            return (ingredient[option.key].toLowerCase()).includes((option.value?.toLowerCase()) ?? "");
           }
         });
       }
@@ -49,27 +49,27 @@
     type="text" 
     bind:value={search_text} 
     class="area" 
-    on:input={function () {searchAlcohol([{key: "name", value: this.value}])}} 
+    on:input={function () {searchingredient([{key: "name", value: this.value}])}} 
     placeholder="검색어를 입력해주세요."
   >
   <input type="image" src={search_icon} alt="search icon" class="search-icon">
 </label>
 <div class='info-box'>
-  {#each search_result as alcohol (alcohol)}
-  <div class="{alcohol.key} alchol-container">
+  {#each search_result as ingredient (ingredient)}
+  <div class="{ingredient.key} alchol-container">
     <div class="img-container">
-      <img class="alchol-img" src="/images/bottles/{alcohol.src}.svg" alt="">
+      <img class="alchol-img" src="/images/ingredients/{ingredient.src}.svg" alt="">
     </div>
     <div class="detail-container">
-      <div class="name">{alcohol.name}</div>
-      <div class="description">{alcohol.description}</div>
+      <div class="name">{ingredient.name}</div>
+      <div class="description">{ingredient.description}</div>
     </div>
     <img class="arrow-icon" src={arrow_icon} alt="arrow icon">
   </div>
   {/each}
 </div>
 
-<div class="alcohol-detail-window">
+<div class="ingredient-detail-window">
   
 </div>
 

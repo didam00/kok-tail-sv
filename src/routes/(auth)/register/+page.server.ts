@@ -3,7 +3,7 @@
 import db, { ControlDB } from "$lib/db";
 import { fail, redirect } from "@sveltejs/kit";
 import type { Action, Actions } from "./$types";
-import { DB_NAME, DB_TABLE_NAME, SALT } from "$lib/constants";
+import { DB_NAME, DB_TABLE_NAME, SALT, generateAuthToken } from "$lib/constants";
 import bcrypt from 'bcrypt';
 
 const isString = function (checks: Array<any>) {
@@ -12,7 +12,7 @@ const isString = function (checks: Array<any>) {
   return true;
 };
 
-const register: Action = async function ({ request }) {
+const register: Action = async function ({ request, cookies }) {
   const data = await request.formData();
 
   const username = data.get('username');
@@ -26,8 +26,8 @@ const register: Action = async function ({ request }) {
     return fail(400, { invalid: true });
   }
 
-  const dup_email_check = await ControlDB.select(db, `email = "${email}"`);
-  const dup_username_check = await ControlDB.select(db, `username = "${username}"`);
+  const dup_email_check = await ControlDB.select(db, "users", `email = "${email}"`);
+  const dup_username_check = await ControlDB.select(db, "users", `username = "${username}"`);
 
   if (dup_email_check.length > 0) {
     console.log("dup_email");
@@ -39,14 +39,25 @@ const register: Action = async function ({ request }) {
     return fail(400, { dup_username: true });
   }
 
+  const token = generateAuthToken();
+
   try {
-    await ControlDB.insert(db, {
+    await ControlDB.insert(db, "users", {
       username: username,
       password: hasedPassword,
       nickname: nickname,
       email: email,
       registeredOn: registeredOn,
+      userAuthToken: token,
     })
+
+    cookies.set('kok-tail-logins', token, {
+      path: '/',
+      httpOnly: true,
+      secure: true,
+      sameSite: 'strict',
+      maxAge: 60 * 60 * 24 * 7,
+    });
   } catch (error) {
     console.log(error);
     return error;

@@ -15,23 +15,6 @@
   const params = new URLSearchParams(window.location.search);
   const fromurl: string = params.get("url") ?? "./app";
 
-  async function handleSubmit() {
-    const response = await fetch('/api/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ id, password })
-    });
-
-    const { success } = await response.json();
-    if (success) {
-      goto('/protected');
-    } else {
-      alert('Invalid id or password');
-    }
-  }
-
   function togglePassword() {
     seePassword = !seePassword;
     document.querySelector(".password")?.setAttribute("type", seePassword ? "text" : "password");
@@ -98,102 +81,5 @@
 <div class="hide-back"></div>
 
 <style lang="scss">
-  :root {
-    background: $background-black;
-  }
-
-  .login-container {
-    display: block;
-    width: 400px;
-    padding: 32px 60px 48px 60px;
-
-    &.active {
-      display: block;
-    }
-  }
-
-  .close-icon {
-    position: absolute;
-    right: 12px;
-    top: 12px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    text-decoration: none;
-  }
-
-  .login-form {
-    display: flex;
-    margin-top: 24px;
-    flex-direction: column;
-
-    .inputs {
-      display: flex;
-      flex-direction: column;
-      float: left;
-      gap: 4px;
-      margin-bottom: 24px;
-    }
-
-    .id-container, .password-container {
-      position: relative;
-    }
-
-    .id, .password {
-      padding: 16px 10px;
-      border: none;
-      background-color: transparent;
-      border-bottom: 2px solid $active-black;
-      font-size: 1.2em;
-      transition: all 150ms;
-      width: calc(100% - 20px);
-
-      &:focus {
-        border-color: $bright-black;
-      }
-
-      &:valid {
-        border-color: $black-point-green;
-      }
-    }
-
-    .password-container .see-password {
-      position: absolute;
-      right: 12px;
-      top: 50%;
-      translate: 0 -50%;
-      cursor: pointer;
-      color: $active-black;
-
-      &:hover {
-        color: $bright-black;
-      }
-
-    }
-
-    .submit {
-      /*  */
-    }
-  }
-
-  .form-hr-ar {
-    margin: 24px 0;
-    border: 1px solid #101010;
-  }
-
-  .ask-register {
-    font-size: 0.8em;
-    text-align: center;
-    margin-top: 24px;
-    color: $gray;
-
-    a {
-      color: $dark-point-pink;
-      cursor: pointer;
-
-      &:hover {
-        color: $point-pink;
-      }
-    }
-  }
+  @import './+page.scss';
 </style>

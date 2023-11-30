@@ -229,3 +229,18 @@ input[type="text"] {
     margin-right: 4px;
   }
 }
+
+.close-icon {
+  position: absolute;
+  right: 16px;
+  top: 16px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 100ms;
+
+  &:hover {
+    color: $gray;
+  }
+}

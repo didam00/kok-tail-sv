@@ -1,15 +1,22 @@
-export const alcohols_data = [
+export const ingredients_data = [
   {
-    name: '앱솔루트 보드카',
-    key: 'absolut',
-    src: "absolut",
+    name: '보드카',
+    key: 'vodka',
+    src: "vodka",
     color: "#4a6c9e",
+    description: "양조주의 맛과 향을 최대한 죽여 무색, 무미, 무취를 특징으로 하는 증류수입니다.",
+  },
+  {
+    name: '화이트 럼',
+    key: 'white_rum',
+    src: "white_rum",
+    color: "#aec0b0",
     description: "description 입니다.",
   },
   {
-    name: '바카디 럼',
-    key: 'bacardi_rum',
-    src: "bacardi_rum",
+    name: '골드 럼',
+    key: 'gold_rum',
+    src: "gold_rum",
     color: "#aec0b0",
     description: "description 입니다.",
   },
@@ -53,6 +60,13 @@ export const alcohols_data = [
     key: 'jack_daniel',
     src: "jack_daniel",
     color: "#a35d35",
+    description: "description 입니다.",
+  },
+  {
+    name: '잭 다니엘 허니',
+    key: 'jack_daniel_honey',
+    src: "jack_daniel_honey",
+    color: "#b78747",
     description: "description 입니다.",
   },
   {
@@ -184,7 +198,7 @@ export const alcohols_data = [
   {
     name: '오렌지 주스',
     key: "orange_juice",
-    src: "cranberry_juice",
+    src: "orange_juice",
     color: "#993e34",
     description: "description 입니다.",
   },
