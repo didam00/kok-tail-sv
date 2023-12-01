@@ -23,8 +23,10 @@
 
   const recipes: Recipe[] = [];
 
+  let list_element: HTMLDivElement;
   let search_text: string;
   let search_result: Recipe[] = [];
+  let select_cocktail: string = "";
 
   onMount(async() => {
     for (const recipe of recipes_data) {
@@ -99,6 +101,16 @@
     }
   }
 
+  function getSelectCocktail(key: string) {
+    // .active 클래스가 있다면 제거
+    list_element.querySelector('.select')?.classList.remove('.select');
+    console.log(list_element.querySelector('.select'));
+    select_cocktail = key;
+    const element = list_element.querySelector(`#${key}`);
+    console.log(element);
+    if (element) element.classList.add('.select');
+  }
+
   $: updateGlasses(), search_result;
 </script>
 
@@ -113,79 +125,118 @@
   <input type="image" src={search_icon} alt="search icon" class="search-icon">
 </label>
 
-<div class='list-container'>
-  {#each search_result as recipe (recipe)}
-    <div class="{recipe.key} recipe-container">
-      <object class="image" type="image/svg+xml" data="" title={recipe.name}></object>
-      <div class="name">{recipe.name}</div>
-      <!-- <div class="shadow"></div> -->
+<section class="content-box">
+  <div class="detail-container">
+    <div class="detail-img-container">
+      <object class="image" type="image/svg+xml" data="" title="detail-image"></object>
     </div>
-  {/each}
-</div>
+    <div class="detail-content">
+      <h2 class="name">칵테일 이름</h2>
+      <div class="description">칵테일 설명...</div>
+    </div>
+  </div>
+  <div class='list-container' bind:this={list_element} on:wheel={event => {
+      event.preventDefault();
+      console.log(event.deltaY);
+      event.currentTarget.scrollLeft += event.deltaY;
+    }}>
+    {#each search_result as recipe (recipe)}
+      <div id={recipe.key} class="{recipe.key} recipe-container" on:pointerup={function () {getSelectCocktail(recipe.key)}}>
+        <object class="image" type="image/svg+xml" data="" title={recipe.name}></object>
+        <div class="name">{recipe.name}</div>
+      </div>
+    {/each}
+  </div>
+</section>
 
 <style lang="scss">
+  $LIST_HEIGHT: 240px;
+
+  .content-box {
+    position: relative;
+    margin: 0 auto;
+    height: calc(100vh - (44px + 48px + 24px + 24px));
+    width: calc(100% - 200px);
+  }
+  
+  .detail-container {
+    display: flex;
+    height: calc(100% - $LIST_HEIGHT);
+    width: 100%;
+    gap: 24px;
+
+    .detail-img-container {
+      border: 2px solid $active-black;
+    }
+
+    .name {
+      margin: 4px 0 12px 0;
+    }
+
+    .description {
+      color: $gray;
+    }
+  }
+  
   .list-container {
     display: flex;
-    margin: 0 auto;
+    gap: 8px;
+    /* min-width: 800px; */
     overflow-x: scroll;
-    height: calc(100vh - (44px + 48px + 24px));
-    width: calc(100% - 400px);
-    flex-wrap: wrap;
-    row-gap: 0px;
-    justify-content: space-around;
-    min-width: 800px;
+    overflow-y: hidden;
+    height: $LIST-HEIGHT;
+    width: 100%;
     
     .recipe-container {
-      position: relative;
-      height: 260px;
       display: flex;
       flex-direction: column;
       justify-content: flex-end;
-      border-radius: 4px;
-      box-sizing: border-box;
-      /* padding: 0px 6px; */
-      transition: none;
+      align-items: center;
+      padding-bottom: 18px;
+      height: 100%;
+      cursor: pointer;
 
-      &:last-child {
-        margin-bottom: 24px;
-      }
-      
       .image {
-        transform: scale(60%) translateY(30%);
+        // object 요소가 마우스 이벤트를 무시한다.
+        pointer-events: none;
+        scale: 70%;
+        translate: 0 15%;
+        opacity: 0.5;
       }
 
       .name {
         color: $bright-black;
-        font-size: 1em;
+        font-size: 1rem;
+        font-weight: 700;
         text-align: center;
-        margin-top: 4px;
-        padding: 8px;
+        width: 100px;
+        height: 3em;
+        text-wrap: nowrap;
+        margin-top: 14px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
       }
 
-      .shadow {
-        position: absolute;
-        height: 26px;
-        width: 60%;
-        background: #080808;
-        border-radius: 50%;
-        left: 50%;
-        transform: translateX(-50%);
-        
-        z-index: -1;
-      }
-      
       &:hover {
+        .image {
+          opacity: 1;
+          translate: 0 calc(15% - 12px);
+        }
+
         .name {
           color: $white;
         }
-
+      }
+      
+      &.select {
         .image {
-          transform: scale(60%) translateY(calc(20% - 16px));
+          opacity: 1;
+          translate: 0 calc(15% - 12px);
         }
-
-        .shadow {
-          transform: translate(-50%, 12px);
-          background: #080808;
+  
+        .name {
+          color: $white;
         }
       }
     }

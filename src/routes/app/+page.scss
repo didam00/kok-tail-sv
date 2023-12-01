@@ -29,25 +29,25 @@ $ingredient_CONT_WIDTH: 120px;
 .ingredients-frame {
   display: flex;
   position: absolute;
-  transform: translateX(-50%);
   left: calc(50% + 40px);
-  bottom: calc(15% + 100px);
-  width: 100%;
+  transform: translateX(-50%);
+  bottom: 10%;
+  max-width: calc(100vw - 80px);
   height: 400px;
-  justify-content: center;
   align-items: flex-end;
-  gap: 24px;
+  gap: 4px;
   flex-shrink: 0;
-  // overflow-x: auto;
+  overflow-x: scroll;
 
-  ::scrollbar-width {
-    width: 0;
+  &::-webkit-scrollbar {
+    display: none;
   }
 
   .ingredient-container {
     position: relative;
     display: flex;
     justify-content: center;
+    flex-direction: column;
 
     &.focused {
       .focus-ml {
@@ -67,11 +67,13 @@ $ingredient_CONT_WIDTH: 120px;
       justify-content: center;
 
       position: absolute;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
+      left: 0;
+      top: 0;
 
       opacity: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
 
       .ml {
         color: $white;
@@ -83,25 +85,17 @@ $ingredient_CONT_WIDTH: 120px;
       }
     }
 
+    .focus-ml.empty + .ingredient-img {
+      opacity: 10%;
+    }
+
     .ingredients {
       margin: 0 auto;
       transition: all 180ms;
     }
 
-    .ingredients-back {
-      opacity: 0.25;
-      position: absolute;
-      margin-left: calc($ingredient_CONT_WIDTH / 2);
-      transform: translateX(-50%);
-      transition: all 180ms;
-    }
-
     &:hover .ingredients {
       transform: translateY(-16px);
-    }
-
-    &:hover .ingredients-back {
-      transform: translateX(-50%) translateY(-16px);
     }
 
     .controller {
@@ -118,30 +112,31 @@ $ingredient_CONT_WIDTH: 120px;
     .caption {
       display: flex;
       flex-direction: column;
-      position: absolute;
-      top: 100%;
       text-align: center;
       margin-top: 10px;
       font-size: 0.9em;
       line-height: 22px;
-      width: $ingredient_CONT_WIDTH;
+      height: 100px;
+      min-width: 100px;
       transition: all 180ms;
+      justify-content: space-between;
       
-      .name {
+      .caption-texts * {
+        display: block;
+      }
+
+      .caption-texts .name {
         color: $white;
         opacity: 25%;
       }
 
-      .ml {
+      .caption-texts .ml {
         color: gray;
         opacity: 25%;
       }
 
       input.select-ingredients {
-        position: absolute;
-        top: 90px;
-        left: 50%;
-        transform: translateX(-50%);
+        margin: 0 auto;
         appearance: none;
         width: 28px;
         height: 28px;
@@ -149,7 +144,6 @@ $ingredient_CONT_WIDTH: 120px;
         border: 3px solid $bright-black;
         box-sizing: border-box;
         cursor: pointer;
-        margin: 0;
 
         transition: all 150ms;
         
@@ -167,21 +161,45 @@ $ingredient_CONT_WIDTH: 120px;
 }
 
 .add-ingredient-container {
+  // display: flex;
   height: 100%;
-  width: $ingredient_CONT_WIDTH + 20px;
-  display: flex;
   background: none;
   border: none;
+  padding: 0 24px 0 12px;
+  
 
   .add-ingredient {
-    position: absolute;
-    bottom: 40px;
     cursor: pointer;
-    transition: all 80ms;
-    transform: translateX(calc(($ingredient_CONT_WIDTH + 20px) / 2 - 50%));
 
     &:hover {
-      filter: brightness(50%);
+      filter: brightness(66%);
+    }
+  }
+}
+
+.tools {
+  position: fixed;
+  right: 80px;
+  top: 48px;
+  padding: 16px 15px 13px 15px;
+  border-radius: 8px;
+  // border: 2px solid $active-black;
+
+  .tools input {
+    height: 28px;
+    width: 28px;
+  }
+
+  .delete-bottle { // 28px * 28px
+    opacity: 1;
+    transition: all 80ms;
+  
+    &:hover {
+      opacity: 0.5;
+    }
+    
+    &:disabled {
+      opacity: 0.1;
     }
   }
 }

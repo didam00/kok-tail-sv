@@ -147,8 +147,11 @@
       }
       
       &:hover {
+        /* translate: 0 -8px; */
+        /* box-shadow: 0px 8px 24px $active-black; */
+
         border-color: $gray;
-        /* translate: 4px 0; */
+        translate: 4px 0;
         
         .detail-container .name {
           color: $white;

@@ -3,6 +3,7 @@
 
   export let callback: Function;
   export let active: boolean = false;
+  export let exclude: string[] = [];
 
   function showAddMaterialWin(show?: boolean) {
     if (show === undefined) active = !active;
@@ -21,11 +22,14 @@
   <h2 class="title">재료 선택</h2>
   <ul class="material-list">
     {#each ingredients_data as ingredient (ingredient)}
+    <!-- 프롭 exclude 에 포함됐다면 보여주지 않는다. -->
+    {#if !exclude.includes(ingredient.key)}
     <div class="material-box">
       <input type="checkbox" name="materials" id="material-list-{ingredient.key}" class={ingredient.key}>
       <label for="material-list-{ingredient.key}" class="fake-checkbox"></label>
       <label for="material-list-{ingredient.key}" class="name">{ingredient.name}</label>
     </div>
+    {/if}
     {/each}
   </ul>
   <div class="button-container">
