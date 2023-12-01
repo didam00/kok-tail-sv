@@ -106,3 +106,10 @@
     height: 160px;
   }
 }
+
+@include mobile {
+  .root-container {
+    min-width: 0;
+    width: 100%;
+  }
+}

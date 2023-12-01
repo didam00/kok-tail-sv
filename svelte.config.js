@@ -10,7 +10,7 @@ const config = {
 	// preprocess: vitePreprocess(),
 	preprocess: preprocess({
 		scss: {
-			prependData: `@import "./src/style/_global.scss";`
+			prependData: `@import "./src/style/_global.scss"; @import "./src/style/_mixin.scss";`
 		}
 	}),
 
@@ -19,11 +19,14 @@ const config = {
 		// If your environment is not supported or you settled on a specific environment, switch out the adapter.
 		// See https://kit.svelte.dev/docs/adapters for more information about adapters.
 		adapter: adapter(),
-		// vite: {
-		// 	server: {
-		// 		port: 5000
-		// 	}
-		// }
+		vite: {
+			build: {
+				outDir: 'public'
+			},
+			// server: {
+			// 	port: 5000
+			// }
+		}
 	}
 };
 

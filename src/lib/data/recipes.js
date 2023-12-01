@@ -5,10 +5,11 @@ export const recipes_data = [
     glass: "rock_glass",
     color: ["#BD9E70"],
     proof: 5,
-    recipe: {
+    ingredients: {
       milk: 3,
-      bailey: 1,
+      baileys: 1,
     },
+    description: '',
   },
   {
     name: "샹그리아",
@@ -16,9 +17,10 @@ export const recipes_data = [
     glass: "wine_glass",
     color: ["#B23131"],
     proof: 13,
-    recipe: {
+    ingredients: {
       
     },
+    description: '',
   },
   {
     name: "꿀주",
@@ -26,10 +28,11 @@ export const recipes_data = [
     glass: "shot_glass",
     color: ["#ffed9a"],
     proof: 16,
-    recipe: {
+    ingredients: {
       soju: 9,
-      bear: 1,
+      beer: 1,
     },
+    description: '',
   },
   {
     name: "화이트 러시안",
@@ -37,11 +40,12 @@ export const recipes_data = [
     glass: "rock_glass",
     color: ["#5d3517", "#5d3517", "#F8E9d8"],
     proof: 23,
-    recipe: {
+    ingredients: {
       cream: 30,
       coffee_liqueur: 30,
       vodka: 50,
     },
+    description: '',
   },
   {
     name: "진 토닉",
@@ -49,9 +53,10 @@ export const recipes_data = [
     glass: "highball_glass",
     color: ["#A6D397"],
     proof: 13,
-    recipe: {
+    ingredients: {
 
     },
+    description: '',
   },
   {
     name: "미도리 샤워",
@@ -59,9 +64,10 @@ export const recipes_data = [
     glass: "rock_glass",
     color: ["#75D964"],
     proof: 14,
-    recipe: {
+    ingredients: {
       
     },
+    description: '',
   },
   {
     name: "마가리타",
@@ -69,9 +75,10 @@ export const recipes_data = [
     glass: "margarita_glass",
     color: ["#eaeaa2"],
     proof: 40,
-    recipe: {
+    ingredients: {
       
     },
+    description: '',
   },
   {
     name: "마티니",
@@ -79,9 +86,10 @@ export const recipes_data = [
     glass: "cocktail_glass",
     color: ["#eae6e4"],
     proof: 40,
-    recipe: {
+    ingredients: {
       
     },
+    description: '',
   },
   {
     name: "키르",
@@ -89,9 +97,10 @@ export const recipes_data = [
     glass: "champagne_glass",
     color: ["#E35959"],
     proof: 11,
-    recipe: {
+    ingredients: {
       
     },
+    description: '',
   },
   {
     name: "BMW",
@@ -99,9 +108,10 @@ export const recipes_data = [
     glass: "rock_glass",
     color: ["#BD9E70", "#F8E9d8", "#D6811D"],
     proof: 26,
-    recipe: {
+    ingredients: {
       
     },
+    description: '',
   },
   {
     name: "위스키 하이볼",
@@ -109,10 +119,11 @@ export const recipes_data = [
     glass: "highball_glass",
     color: ["#E9D259"],
     proof: 11,
-    recipe: {
+    ingredients: {
       tonic_water: 150,
       whiskey: 60,
     },
+    description: '',
   },
   {
     name: "B-52",
@@ -120,10 +131,11 @@ export const recipes_data = [
     glass: "shot_glass",
     color: ["#F8E9d8"],
     proof: 11,
-    recipe: {
+    ingredients: {
       tonic_water: 150,
       whiskey: 60,
     },
+    description: '',
   },
   {
     name: "준벅",
@@ -131,9 +143,10 @@ export const recipes_data = [
     glass: "brandy_snifter",
     color: ["#A3D355"],
     proof: 0,
-    recipe: {
+    ingredients: {
 
     },
+    description: '',
   },
   {
     name: "잭콕",
@@ -141,10 +154,11 @@ export const recipes_data = [
     glass: "rock_glass",
     color: ["#420810"],
     proof: 0,
-    recipe: {
+    ingredients: {
       jack_daniel: 45,
       coke: 0, // full up
     },
+    description: '',
   },
   {
     name: "체리 럼 콕",
@@ -152,10 +166,11 @@ export const recipes_data = [
     glass: "pilsner_glass",
     color: ["#551d1b"],
     proof: 0,
-    recipe: {
+    ingredients: {
       white_rum: 30,
       cherry_juice: 15,
       coke: -1, // 적당량
     },
+    description: '',
   },
 ]

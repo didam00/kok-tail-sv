@@ -1,4 +1,4 @@
-@import "../../style/global";
+@import "./global";
 
 @mixin mobile {
   @media (min-width: #{$breakpoint-mobile})

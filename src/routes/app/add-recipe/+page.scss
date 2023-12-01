@@ -225,6 +225,16 @@
     .ml {
       float: right;
       opacity: 0.5;
+      font-size: 1rem;
+      background: transparent;
+      border: none;
+      width: auto;
+      text-align: right;
+      width: 50%
+    }
+
+    .ml::after {
+      content: 'ml';
     }
 
     .grab-icon {

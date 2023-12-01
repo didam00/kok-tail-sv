@@ -51,8 +51,6 @@
 </div>
 
 <style lang='scss'>
-  @import "./mixin";
-
   $SIDE-BAR-WIDTH: 80px;
 
   :root {
@@ -104,24 +102,36 @@
     }
   }
 
-  @include mobile {
-    .side-bar {
-      height: 52px;
-      width: 100%;
-      bottom: 0;
-      flex-direction: row;
-      
-      .tab-icon {
-        float: left;
-      }
-    }
-  }
-
   .my-profile {
     
   }
 
   .slot-container {
     margin: 0 $SIDE-BAR-WIDTH;
+  }
+  
+  @include mobile {
+    .slot-container {
+      margin: 0 16px;
+    }
+
+    .side-bar {
+      height: 52px;
+      width: 100%;
+      bottom: 0;
+      border: 0;
+      padding: 4px 0 1px 0;
+      border-top: 2px solid $bright-black;
+      overflow: hidden;
+
+      // using flex
+      nav {
+        flex-direction: row;
+      }
+      
+      .tab-icon {
+        float: left;
+      }
+    }
   }
 </style>

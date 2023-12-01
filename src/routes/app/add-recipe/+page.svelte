@@ -8,7 +8,6 @@
   import { glasses_data } from "$lib/data/glasses";
   import { ingredients_data } from "$lib/data/ingredients";
   import MaterialWindow from "$lib/MaterialWindow.svelte";
-  import { redirect } from "@sveltejs/kit";
   import { goto } from "$app/navigation";
   
   interface Material {
@@ -131,6 +130,8 @@
   }
 
   async function postRecipe() {
+    if (!formValid) return;
+
     const response = await fetch('/api/addRecipe', {
       method: "POST",
       body: JSON.stringify({
@@ -203,7 +204,7 @@
             >
               <img class="grab-icon" src="/images/menu.svg" alt={material.key}>
               <span class="name">{material.name}</span>
-              <span class="ml">{material.ml}mL</span>
+              <input class="ml" bind:value={material.ml}>
               <button class="material-icons delete-icon" on:click={() => {deleteMaterial(material)}}>&#xe5cd;</button>
             </li>
             {/each}

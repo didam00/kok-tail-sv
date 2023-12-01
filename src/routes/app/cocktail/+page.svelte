@@ -1,17 +1,29 @@
 <script lang="ts">
   import search_icon from "$lib/images/search-icon.svg";
+  import unknown_cocktail from "$lib/images/unknown-cocktail.svg";
   import { onMount, tick } from "svelte";
   import { recipes_data } from "$lib/data/recipes";
+  import { ingredients_data } from "$lib/data/ingredients";
 
   export let data: {
     CustomRecipes: {[key: string]: any}[]
+    // CustomRecipes: CustomRecipeData[]
   };
+
+  interface RecipeIngredients {
+    [key: string]: number
+  }
 
   interface Recipe {
     name: string;
     key: string;
     svg: Document;
     color: string[];
+    type: 'original' | 'custom';
+    author: string | null;
+    // proof: number;
+    description: string;
+    ingredients: RecipeIngredients;
   }
 
   interface SearchOption {
@@ -26,7 +38,11 @@
   let list_element: HTMLDivElement;
   let search_text: string;
   let search_result: Recipe[] = [];
-  let select_cocktail: string = "";
+  let selected_cocktail: string = "unknown";
+  let selected_cocktail_obj: Recipe | undefined;
+  
+  // const params = new URLSearchParams(window.location.search);
+  // const fromurl: string | null = params.get("key");
 
   onMount(async() => {
     for (const recipe of recipes_data) {
@@ -34,26 +50,48 @@
       const svg_text = await res.text();
       const parser = new DOMParser();
       const svg = parser.parseFromString(svg_text, "image/svg+xml");
-      const r = {
+      // r이 Recipe 라는걸 명시해줘야한다
+      const r: Recipe = {
         name: recipe.name,
         key: recipe.key,
         svg: svg,
         color: recipe.color,
+        type: 'original',
+        description: recipe.description,
+        author: null,
+        ingredients: recipe.ingredients as RecipeIngredients,
       };
       recipes.push(r);
     }
-
+    
     for (const recipe of data.CustomRecipes) {
-      const res = await fetch(`/images/glasses/${recipe.glass}.svg`);
-      const svg_text = await res.text();
+      const svg_response = await fetch(`/images/glasses/${recipe.glass}.svg`);
+      const svg_text = await svg_response.text();
       const parser = new DOMParser();
       const svg = parser.parseFromString(svg_text, "image/svg+xml");
-      const r = {
+      const prefix = "custom_cocktail_"
+
+      const ingrdnts_response = await fetch(`/api/getIngredients?recipeId=${recipe.id}`, {
+        method: 'GET',
+      }).then(res => res.json())
+
+      const ingrdntsObj = (ingrdnts_response.ingredients as {keyname: string, volume: number}[]).reduce((acc: {[key: string]: number}, o) => {
+        acc[o.keyname] = o.volume;
+        return acc;
+      }, {})
+
+      const r: Recipe = {
         name: recipe.name,
-        key: `custom_cocktail_${recipe.id}`,
+        key: `${prefix}${recipe.id}`,
         svg: svg,
         color: recipe.colors.split(","),
+        type: 'custom',
+        description: recipe.description,
+        author: recipe.username,
+        ingredients: ingrdntsObj,
       };
+
+      console.log(ingrdnts_response.ingredients);
       recipes.push(r);
     }
 
@@ -101,14 +139,32 @@
     }
   }
 
+  /** 칵테일이 선택됐을 때 내용 바꿈 */
   function getSelectCocktail(key: string) {
-    // .active 클래스가 있다면 제거
-    list_element.querySelector('.select')?.classList.remove('.select');
-    console.log(list_element.querySelector('.select'));
-    select_cocktail = key;
+    // .selected 클래스가 있다면 제거
+    list_element.querySelector('.selected')?.classList.remove('selected');
+    selected_cocktail = key;
     const element = list_element.querySelector(`#${key}`);
-    console.log(element);
-    if (element) element.classList.add('.select');
+    if (element) element.classList.add('selected');
+
+    // 선택된 칵테일을 디테일 영역에 표시
+    selected_cocktail_obj = recipes.find(r => r.key == key);
+
+    if (selected_cocktail_obj) {
+      const detail_img_element = document.querySelector('.detail-img-container .image') as HTMLObjectElement;
+      const detail_name_element = document.querySelector('.detail-content .name') as HTMLDivElement;
+      const detail_desc_element = document.querySelector('.detail-content .description') as HTMLDivElement;
+      const detail_author_element = document.querySelector('.detail-content .author') as HTMLDivElement;
+  
+      detail_img_element.data = URL.createObjectURL(new Blob([selected_cocktail_obj.svg.documentElement.outerHTML], {
+        type: "image/svg+xml"
+      }));
+      detail_name_element.innerText = selected_cocktail_obj.name;
+      detail_desc_element.innerText = selected_cocktail_obj.description;
+      detail_author_element.innerText = selected_cocktail_obj.author || "original";
+    } else {
+      console.error("Can't find this key in recipes data:", key);
+    }
   }
 
   $: updateGlasses(), search_result;
@@ -123,16 +179,41 @@
     placeholder="검색어를 입력해주세요."
   >
   <input type="image" src={search_icon} alt="search icon" class="search-icon">
+  <div>
+
+  </div>
 </label>
+
+<div class="search-filters-container">
+  <input type="radio" name="only" class="search-filter" id="all" checked>
+  <label for="all">모두</label>
+  <input type="radio" name="only" class="search-filter" id="only-custom">
+  <label for="only-custom">커스텀만</label>
+  <input type="radio" name="only" class="search-filter" id="only-original">
+  <label for="only-original">오리지널만</label>
+</div>
 
 <section class="content-box">
   <div class="detail-container">
     <div class="detail-img-container">
-      <object class="image" type="image/svg+xml" data="" title="detail-image"></object>
+      <object class="image" type="image/svg+xml" data={unknown_cocktail} title="detail-image"></object>
     </div>
     <div class="detail-content">
       <h2 class="name">칵테일 이름</h2>
       <div class="description">칵테일 설명...</div>
+      <div class="ingredients-container">
+        <ul>
+        {#if selected_cocktail_obj != undefined}
+        {#each Object.entries(selected_cocktail_obj.ingredients) as ingredient}
+          <li class="ingredient-name">
+            <span class="name">{ingredients_data.find(ig => ig.key == ingredient[0])?.name ?? ingredient[0]}</span>
+            <span class="volume">{ingredient[1]}ml</span>
+          </li>
+        {/each}
+        {/if}
+        </ul>
+      </div>
+      <div class="author">지은이</div>
     </div>
   </div>
   <div class='list-container' bind:this={list_element} on:wheel={event => {
@@ -150,95 +231,5 @@
 </section>
 
 <style lang="scss">
-  $LIST_HEIGHT: 240px;
-
-  .content-box {
-    position: relative;
-    margin: 0 auto;
-    height: calc(100vh - (44px + 48px + 24px + 24px));
-    width: calc(100% - 200px);
-  }
-  
-  .detail-container {
-    display: flex;
-    height: calc(100% - $LIST_HEIGHT);
-    width: 100%;
-    gap: 24px;
-
-    .detail-img-container {
-      border: 2px solid $active-black;
-    }
-
-    .name {
-      margin: 4px 0 12px 0;
-    }
-
-    .description {
-      color: $gray;
-    }
-  }
-  
-  .list-container {
-    display: flex;
-    gap: 8px;
-    /* min-width: 800px; */
-    overflow-x: scroll;
-    overflow-y: hidden;
-    height: $LIST-HEIGHT;
-    width: 100%;
-    
-    .recipe-container {
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      align-items: center;
-      padding-bottom: 18px;
-      height: 100%;
-      cursor: pointer;
-
-      .image {
-        // object 요소가 마우스 이벤트를 무시한다.
-        pointer-events: none;
-        scale: 70%;
-        translate: 0 15%;
-        opacity: 0.5;
-      }
-
-      .name {
-        color: $bright-black;
-        font-size: 1rem;
-        font-weight: 700;
-        text-align: center;
-        width: 100px;
-        height: 3em;
-        text-wrap: nowrap;
-        margin-top: 14px;
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-      }
-
-      &:hover {
-        .image {
-          opacity: 1;
-          translate: 0 calc(15% - 12px);
-        }
-
-        .name {
-          color: $white;
-        }
-      }
-      
-      &.select {
-        .image {
-          opacity: 1;
-          translate: 0 calc(15% - 12px);
-        }
-  
-        .name {
-          color: $white;
-        }
-      }
-    }
-  }
+  @import './+page.scss';
 </style>

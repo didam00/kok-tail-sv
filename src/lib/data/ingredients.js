@@ -4,7 +4,7 @@ export const ingredients_data = [
     key: 'vodka',
     src: "vodka",
     color: "#4a6c9e",
-    description: "양조주의 맛과 향을 최대한 죽여 무색, 무미, 무취를 특징으로 하는 증류수입니다.",
+    description: "양조주의 맛과 향을 최대한 죽여 무색, 무미, 무취를 특징으로 하는 증류주예요.",
   },
   {
     name: '화이트 럼',
@@ -17,7 +17,7 @@ export const ingredients_data = [
     name: '골드 럼',
     key: 'gold_rum',
     src: "gold_rum",
-    color: "#aec0b0",
+    color: "#c49e60",
     description: "description 입니다.",
   },
   {
@@ -84,11 +84,18 @@ export const ingredients_data = [
     description: "description 입니다.",
   },
   {
-    name: "깔루아",
+    name: "칼루아",
     key: 'kahlua',
     src: "kahlua",
     color: "#1f1817",
     description: "description 입니다.",
+  },
+  {
+    name: "커피 리큐르",
+    key: "coffee_liquor",
+    src: "coffee_liquor",
+    color: "#1f1817",
+    description: "커피맛이 나는 리큐르로 칼루아 등이 여기에 속해요.",
   },
   {
     name: "북경고량주",
