@@ -101,9 +101,57 @@
 }
 
 .custom-cocktails {
+  
   .cocktails-container {
+    display: flex;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    height: 250px;
     width: 100%;
-    height: 160px;
+    
+    .recipe-container {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      align-items: center;
+      padding-bottom: 18px;
+      height: 100%;
+      cursor: pointer;
+
+      .image {
+        $SCALE: 60%;
+        // object 요소가 마우스 이벤트를 무시한다.
+        pointer-events: none;
+        scale: $SCALE;
+        translate: 0 20%;
+        opacity: 0.5;
+      }
+
+      .name {
+        color: $bright-black;
+        font-size: 1rem;
+        font-weight: 700;
+        text-align: center;
+        width: 100px;
+        height: 3em;
+        text-wrap: nowrap;
+        margin-top: 14px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+
+      &:hover {
+        .image {
+          opacity: 0.8;
+          translate: 0 calc(15% - 4px);
+        }
+
+        .name {
+          color: $gray;
+        }
+      }
+    }
   }
 }
 

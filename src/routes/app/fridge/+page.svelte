@@ -3,8 +3,8 @@
   import up_icon from '$lib/images/up_icon.svg';
   import down_icon from '$lib/images/down_icon.svg';
   import delete_bottle_icon from "$lib/images/delete_bottle_icon.svg";
+  import MaterialWindow from "../../../components/MaterialWindow.svelte";
 
-  import MaterialWindow from '$lib/MaterialWindow.svelte';
   import { ingredients_data } from '$lib/data/ingredients';
     
   interface Ingredient {
@@ -12,24 +12,24 @@
     keyname: string;
     volume: number;
   }
-
+  
   export let data;
-
+  
   let hasIngredients: Ingredient[] = data.ingredients;
   let volumeIsChange = false;
   let showAddMaterialWin = false;
   let selectedIngrdnts: string[] = [];
-
+  
   // 좌클릭하면 해당 요소가 어두워지고 가운데에 잔량 표시
   // 스크롤하여 잔량을 조절 가능
   // 모바일에서는 드래그 위/아래로 추가/제거
   // 우측 상단 삭제 버튼으로 삭제 가능
-
+  
   function focusingredient(ingredient_key: string) {
     const ingredient = document.querySelector(`.${ingredient_key}`) as HTMLElement;
     ingredient.classList.add('focused');
   }
-
+  
   async function unfocusingredient(ingredient_key: string) {
     const ingrdntElement = document.querySelector(`.${ingredient_key}`) as HTMLElement;
     ingrdntElement.classList.remove('focused');
@@ -37,12 +37,12 @@
     // 언포커싱했을 때 데이터베이스에 업데이트한다.
     if (volumeIsChange) {
       const ingredient = hasIngredients.find(a => a.keyname == ingredient_key);
-
+  
       if (!ingredient) {
         console.error("Can't found ingredient key:", ingredient_key);
         return;
       }
-
+  
       if (ingredient.volume <= 0) {
         const response = await fetch('/api/updateIngredient', {
           method: 'DELETE',
@@ -50,13 +50,13 @@
             data: ingredient,
           })
         });
-
+  
         const ingrdntIdx = hasIngredients.indexOf(ingredient);
         hasIngredients = [
           ...hasIngredients.slice(0, ingrdntIdx), 
           ...hasIngredients.slice(ingrdntIdx+1)];
         return response;
-
+  
       } else {
         const response = await fetch('/api/updateIngredient', {
           method: 'PATCH',
@@ -66,12 +66,12 @@
         });
         return response;
       }
-
+  
     }
-
+  
     volumeIsChange = false;
   }
-
+  
   async function deleteBottles() {
     for (let k of selectedIngrdnts) {
       const response = await fetch('/api/updateIngredient', {
@@ -82,16 +82,16 @@
           }
         })
       });
-
+  
       const ingrdntIdx = hasIngredients.findIndex(a => a.keyname == k);
       hasIngredients = [
         ...hasIngredients.slice(0, ingrdntIdx), 
         ...hasIngredients.slice(ingrdntIdx+1)];
     }
-
+  
     selectedIngrdnts = [];
   }
-
+  
   async function updateDBaddIngrdnts(ingredients: Ingredient[]) {
     const response = await fetch('/api/updateIngredient', {
       method: 'POST',
@@ -102,37 +102,43 @@
         data: ingredients,
       })
     });
-
+  
     if (response.ok) {
       console.log("Successfully insert ingredients data into database.");
     } else {
       console.log(response);
     }
   }
-
+  
   async function applyAddingredients(checksElements: HTMLInputElement[]) {
     const SLICELEN = 'material-list-'.length;
     const keys = checksElements.map(ele => ele.id.slice(SLICELEN));
     let newIngredients = [];
-
+  
     for (let key of keys) {
       let ingredient = ingredients_data.find(o => o.key == key);
-
+  
       if (!ingredient) {
         console.error("다음 키가 ingredients 데이터에 없습니다:"+key);
         continue;
       }
-
+  
       let newIngredient: Ingredient = {
+        id: -1,
         keyname: ingredient.key,
         volume: 100,
       }
-
+  
       newIngredients.push(newIngredient);
       hasIngredients = [...hasIngredients, newIngredient];
     }
 
+    
     updateDBaddIngrdnts(newIngredients);
+  }
+
+  function changeVolume(event: WheelEvent, ingredient: Ingredient) {
+
   }
 </script>
 
@@ -151,7 +157,7 @@
     >
       <div class="ingredients">
         <div class="focus-ml" on:wheel={
-          (event) => {
+          event => {
             const val = event.deltaY;
             const unit = event.shiftKey ? 1 : 10;
             if (val > 0) {

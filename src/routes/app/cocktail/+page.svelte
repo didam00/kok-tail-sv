@@ -4,6 +4,9 @@
   import { onMount, tick } from "svelte";
   import { recipes_data } from "$lib/data/recipes";
   import { ingredients_data } from "$lib/data/ingredients";
+  
+  // const BASE_URL = '/u2301415';
+  const BASE_URL = '';
 
   export let data: {
     CustomRecipes: {[key: string]: any}[]
@@ -29,8 +32,9 @@
   interface SearchOption {
     key: string;
     value?: string;
-    range?: [number, number],
+    range?: [number, number];
     inlclude?: boolean;
+    data?: string;
   }
 
   const recipes: Recipe[] = [];
@@ -40,11 +44,12 @@
   let search_result: Recipe[] = [];
   let selected_cocktail: string = "unknown";
   let selected_cocktail_obj: Recipe | undefined;
+  let search_type = "all";
   
   // const params = new URLSearchParams(window.location.search);
   // const fromurl: string | null = params.get("key");
 
-  onMount(async() => {
+  onMount(async () => {
     for (const recipe of recipes_data) {
       const res = await fetch(`/images/glasses/${recipe.glass}.svg`);
       const svg_text = await res.text();
@@ -71,7 +76,7 @@
       const svg = parser.parseFromString(svg_text, "image/svg+xml");
       const prefix = "custom_cocktail_"
 
-      const ingrdnts_response = await fetch(`/api/getIngredients?recipeId=${recipe.id}`, {
+      const ingrdnts_response = await fetch(`${BASE_URL}/api/getIngredients?recipeId=${recipe.id}`, {
         method: 'GET',
       }).then(res => res.json())
 
@@ -91,7 +96,6 @@
         ingredients: ingrdntsObj,
       };
 
-      console.log(ingrdnts_response.ingredients);
       recipes.push(r);
     }
 
@@ -133,10 +137,12 @@
       }
       
       const targetObject = document.querySelector(`.${recipe.key} .image`) as HTMLObjectElement;
-      targetObject.data = URL.createObjectURL(new Blob([recipe.svg.documentElement.outerHTML], {
+      recipe.data = URL.createObjectURL(new Blob([recipe.svg.documentElement.outerHTML], {
         type: "image/svg+xml"
       }));
     }
+
+    search_result = [...search_result];
   }
 
   /** 칵테일이 선택됐을 때 내용 바꿈 */
@@ -167,7 +173,7 @@
     }
   }
 
-  $: updateGlasses(), search_result;
+  $: search_result;
 </script>
 
 <label class="search-area">
@@ -175,7 +181,13 @@
     type="text" 
     class="area"
     bind:value={search_text}
-    on:input={function () {searchRecipe([{key: "name", value: this.value}])}}
+    on:input={function () {
+      if (search_type == "all") {
+        searchRecipe([{key: "name", value: this.value}])
+      } else {
+        searchRecipe([{key: "name", value: this.value}, {key: "type", value: search_type}])
+      }
+    }}
     placeholder="검색어를 입력해주세요."
   >
   <input type="image" src={search_icon} alt="search icon" class="search-icon">
@@ -185,12 +197,12 @@
 </label>
 
 <div class="search-filters-container">
-  <input type="radio" name="only" class="search-filter" id="all" checked>
+  <input type="radio" name="only" class="search-filter" id="all" checked on:click={function () {search_type = this.id; searchRecipe([{key: "name", value: search_text}])}}>
   <label for="all">모두</label>
-  <input type="radio" name="only" class="search-filter" id="only-custom">
-  <label for="only-custom">커스텀만</label>
-  <input type="radio" name="only" class="search-filter" id="only-original">
-  <label for="only-original">오리지널만</label>
+  <input type="radio" name="only" class="search-filter" id="custom" on:click={function () {search_type = this.id; searchRecipe([{key: "name", value: search_text}, {key: "type", value: search_type}])}}>
+  <label for="custom">커스텀만</label>
+  <input type="radio" name="only" class="search-filter" id="original" on:click={function () {search_type = this.id; searchRecipe([{key: "name", value: search_text}, {key: "type", value: search_type}])}}>
+  <label for="original">오리지널만</label>
 </div>
 
 <section class="content-box">
@@ -218,12 +230,11 @@
   </div>
   <div class='list-container' bind:this={list_element} on:wheel={event => {
       event.preventDefault();
-      console.log(event.deltaY);
-      event.currentTarget.scrollLeft += event.deltaY;
+      event.currentTarget.scrollLeft += event.deltaY * 3;
     }}>
     {#each search_result as recipe (recipe)}
       <div id={recipe.key} class="{recipe.key} recipe-container" on:pointerup={function () {getSelectCocktail(recipe.key)}}>
-        <object class="image" type="image/svg+xml" data="" title={recipe.name}></object>
+        <object class="image" type="image/svg+xml" data={recipe.data} title={recipe.name}></object>
         <div class="name">{recipe.name}</div>
       </div>
     {/each}

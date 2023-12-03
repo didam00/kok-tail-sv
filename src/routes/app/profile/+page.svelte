@@ -1,22 +1,86 @@
 <script lang="ts">
   import setting_icon from "$lib/images/menu.svg";
-  import { onMount } from "svelte";
+  import { onMount, tick } from "svelte";
 
   export let data;
-  console.log(data);
-  
-  // import LoginWindow from "$lib/LoginWindow.svelte";
-  // import RegisterWindow from "$lib/RegisterWindow.svelte";
 
-  // let showLoginWin = false;
-  // let showRegisterWin = false;
+  interface RecipeIngredients {
+    [key: string]: number
+  }
+
+  interface Recipe {
+    name: string;
+    key: string;
+    svg: Document;
+    color: string[];
+    type: 'original' | 'custom';
+    author: string | null;
+    // proof: number;
+    description: string;
+    ingredients: RecipeIngredients;
+  }
+
+  const BASE_URL = '';
   let showMenubar = false;
-
   let url: string;
+  let recipes: Recipe[] = [];
 
-  onMount(() => {
+  onMount(async () => {
     url = window.location.href;
+
+    for (const recipe of data.customRecipes) {
+      const svg_response = await fetch(`/images/glasses/${recipe.glass}.svg`);
+      const svg_text = await svg_response.text();
+      const parser = new DOMParser();
+      const svg = parser.parseFromString(svg_text, "image/svg+xml");
+      const prefix = "custom_cocktail_"
+
+      const ingrdnts_response = await fetch(`${BASE_URL}/api/getIngredients?recipeId=${recipe.id}`, {
+        method: 'GET',
+      }).then(res => res.json())
+
+      const ingrdntsObj = (ingrdnts_response.ingredients as {keyname: string, volume: number}[]).reduce((acc: {[key: string]: number}, o) => {
+        acc[o.keyname] = o.volume;
+        return acc;
+      }, {})
+
+      const r: Recipe = {
+        name: recipe.name,
+        key: `${prefix}${recipe.id}`,
+        svg: svg,
+        color: recipe.colors.split(","),
+        type: 'custom',
+        description: recipe.description,
+        author: recipe.username,
+        ingredients: ingrdntsObj,
+      };
+
+      recipes.push(r);
+    }
+
+    recipes = [...recipes];
+
+    updateGlasses();
   })
+
+  async function updateGlasses() {
+    await tick();
+
+    for (const recipe of recipes) { 
+      const liquid = recipe.svg.querySelectorAll('.inner');
+  
+      for (let i = 0; i < 6; i++) {
+        liquid[i]?.setAttribute("fill", recipe.color[Math.floor(recipe.color.length / 6 * i)]);
+      }
+      
+      const targetObject = document.querySelector(`.${recipe.key} .image`) as HTMLObjectElement;
+      targetObject.data = URL.createObjectURL(new Blob([recipe.svg.documentElement.outerHTML], {
+        type: "image/svg+xml"
+      }));
+    }
+  }
+
+  $: updateGlasses();
 </script>
 
 <div class="root-container">
@@ -45,12 +109,19 @@
   </section>
   <section class="custom-cocktails">
     <h3 class="title">제작한 칵테일</h3>
-    <div class="cocktails-container"></div>
+    <div class="cocktails-container" on:wheel={event => {
+      event.preventDefault();
+      event.currentTarget.scrollLeft += event.deltaY * 3;
+    }}>
+    {#each recipes as recipe (recipe)}
+      <div id={recipe.key} class="{recipe.key} recipe-container">
+        <object class="image" type="image/svg+xml" data="" title={recipe.name}></object>
+        <div class="name">{recipe.name}</div>
+      </div>
+    {/each}
+    </div>
   </section>
 </div>
-
-<!-- <LoginWindow bind:active={showLoginWin}/> -->
-<!-- <RegisterWindow bind:active={showRegisterWin}/> -->
 
 <style lang="scss">
   @import './+page.scss';

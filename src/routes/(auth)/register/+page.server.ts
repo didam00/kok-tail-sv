@@ -63,7 +63,7 @@ const register: Action = async function ({ request, cookies }) {
     return error;
   }
 
-  throw redirect(303, '/app');
+  throw redirect(303, '../../app/profile');
 }
 
 export const actions: Actions = { register };

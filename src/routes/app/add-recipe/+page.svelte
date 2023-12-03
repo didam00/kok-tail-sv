@@ -1,13 +1,8 @@
-<!-- 
-  TODO: 커스텀 칵테일 설정 ui 만들기
-  TODO: 랜덤 이름 생성기
- -->
-
 <script lang="ts">
   import { onMount } from "svelte";
   import { glasses_data } from "$lib/data/glasses";
   import { ingredients_data } from "$lib/data/ingredients";
-  import MaterialWindow from "$lib/MaterialWindow.svelte";
+  import MaterialWindow from "../../../components/MaterialWindow.svelte";
   import { goto } from "$app/navigation";
   
   interface Material {

@@ -23,6 +23,5 @@ export const handle: Handle = async ({ event, resolve }) => {
       ingredients: [],
     };
   }
-
   return await resolve(event);
 }

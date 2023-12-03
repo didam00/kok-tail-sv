@@ -6,6 +6,8 @@
   import profile_icon from '$lib/images/profile_icon.svg';
   import { onMount } from 'svelte';
 
+  const BASE_URL = '';
+
   class SideBarTab {
     constructor (public name: string, public src: string, public href: string) {
       this.name = name;
@@ -14,35 +16,49 @@
     }
   }
 
-  const side_bar_col: SideBarTab[] = [
-    new SideBarTab("fridge", fridge_icon, ""),
-    new SideBarTab("search-cocktail", cup_icon, "/cocktail"),
-    new SideBarTab("search-alcohol", bottle_icon, "/alcohol"),
-    new SideBarTab("add-recipe", add_icon, "/add-recipe"),
-    new SideBarTab("my-profile", profile_icon, "/profile"),
-  ]
-
-  let current_tab = "/";
+  let current_tab = "fridge";
 
   onMount(() => {
-    const current_path = window.location.pathname;
-    for (const tab of side_bar_col) {
-      if (tab.href == current_path) {
-        current_tab = tab.href;
-        break;
-      }
-    }
+    
   });
+
+  function changeUrl(tabName: string) {
+    current_tab = tabName;
+  }
 </script>
 
 <div class="side-bar">
   <nav>
-    {#each side_bar_col as tab}
-      <a href={tab.href} class="tab-icon {tab.name}" class:active={current_tab == tab.href}
-      on:click={() => {current_tab = tab.href}}>
-          <img src={tab.src} alt="{tab.name} tab">
-        </a>
-    {/each}
+    <a id="fridge" href="./fridge" 
+      class="tab-icon" on:click={function () {changeUrl(this.id || '')}}
+      class:active={current_tab == 'fridge'}
+    >
+      <img src={fridge_icon} alt="fridge">
+    </a>
+    <a id="alcohol" href="./alcohol" 
+      class="tab-icon" on:click={function () {changeUrl(this.id || '')}}
+      class:active={current_tab == 'alcohol'}
+    >
+      <img src={bottle_icon} alt="cup">
+    </a>
+    <a id="cocktail" href="./cocktail" 
+      class="tab-icon" on:click={function () {changeUrl(this.id || '')}}
+      class:active={current_tab == 'cocktail'}
+    >
+      <img src={cup_icon} alt="cocktail">
+    </a>
+    <a id="add-recipe" href="./add-recipe" 
+      class="tab-icon" on:click={function () {changeUrl(this.id || '')}}
+      class:active={current_tab == 'add-recipe'}
+    >
+      <img src={add_icon} alt="add recipe">
+    </a>
+    <a id="profile" href="./profile" 
+      class="tab-icon" on:click={function () {changeUrl(this.id || '')}}
+      class:active={current_tab == 'profile'}
+    >
+      <img src={profile_icon} alt="profile">
+    </a>
   </nav>
 </div>
 

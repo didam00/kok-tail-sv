@@ -1,13 +1,17 @@
+// .env 를 사용할 수 있게 해준다.
+import dotenv from 'dotenv';
 import mysql from 'mysql2/promise';
 import { DB_NAME } from './constants';
 
+dotenv.config();
+
 // 풀은 데이터베이스 연결을 재사용할 수 있게 해줌
 const pool = await mysql.createPool({
-  host: '203.234.62.38',
-  user: 'u2301415',
-  password: "u2301415!",
-  database: "u2301415",
-  port: 3307,
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_DATABASE,
+  port: parseInt(process.env.DB_PORT || '3306'),
 })
 
 export default pool;

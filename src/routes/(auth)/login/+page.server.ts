@@ -40,7 +40,7 @@ const login: Action = async function ({ cookies, request }) {
     maxAge: 60 * 60 * 24 * 7, // 쿠키의 유효기간을 1주일로 설정
   });
 
-  throw redirect(303, '/app');
+  throw redirect(303, '../../app/profile');
 }
 
 export const actions: Actions = { login };

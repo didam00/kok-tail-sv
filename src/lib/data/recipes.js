@@ -84,7 +84,7 @@ export const recipes_data = [
     name: "마티니",
     key: "martini",
     glass: "cocktail_glass",
-    color: ["#eae6e4"],
+    color: ["#c1bdbd"],
     proof: 40,
     ingredients: {
       

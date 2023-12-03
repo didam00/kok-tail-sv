@@ -1,4 +1,4 @@
-import adapter from '@sveltejs/adapter-vercel';
+import adapter from '@sveltejs/adapter-node';
 
 import { vitePreprocess } from '@sveltejs/kit/vite';
 import preprocess from 'svelte-preprocess';
@@ -11,7 +11,7 @@ const config = {
 	preprocess: preprocess({
 		scss: {
 			prependData: `@import "./src/style/_global.scss"; @import "./src/style/_mixin.scss";`
-		}
+		},
 	}),
 
 	kit: {
@@ -20,6 +20,9 @@ const config = {
 		// See https://kit.svelte.dev/docs/adapters for more information about adapters.
 		// adapter: adapter(),
 		adapter: adapter(),
+		paths: {
+			// base: '/u2301415'
+		}
 	}
 };
 

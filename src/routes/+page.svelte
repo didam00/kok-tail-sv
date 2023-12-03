@@ -1,14 +1,25 @@
 <script lang="ts">
-  export let data;
+  import { text } from '@sveltejs/kit';
+  import { onMount } from 'svelte';
 
-  console.log(data.test);
+  const test = async function () {
+    const t = await fetch(`./api/testAPI`, {
+      method: "GET"
+    }).then(res => res.json());
+
+    return t;
+  };
+
+  onMount(async function () {
+    console.log((await test()).nickname);
+  })
 </script>
 
 <div class="title">
   <h1 class="text">
     Koktail
   </h1>
-  <a class="open-app" href="/app"><span>open</span><span class="material-icons">&#xE89E;</a>
+  <a class="open-app" href="./app/fridge"><span>open</span><span class="material-icons">&#xE89E;</a>
 </div>
 
 <style lang="scss">
