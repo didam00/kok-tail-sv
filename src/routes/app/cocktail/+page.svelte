@@ -8,10 +8,7 @@
   // const BASE_URL = '/u2301415';
   const BASE_URL = '';
 
-  export let data: {
-    CustomRecipes: {[key: string]: any}[]
-    // CustomRecipes: CustomRecipeData[]
-  };
+  export let data: any;
 
   interface RecipeIngredients {
     [key: string]: number
@@ -27,6 +24,7 @@
     // proof: number;
     description: string;
     ingredients: RecipeIngredients;
+    data?: string,
   }
 
   interface SearchOption {
@@ -124,6 +122,17 @@
     }
 
     search_result = results.sort();
+
+    if ((document.querySelector('input#kok') as HTMLInputElement).checked) {
+      const hasIngredients = (data.Ingredients as any[]).map(ig => ig.keyname);
+
+      search_result = search_result.filter(recipe => {
+        return Object.keys(recipe.ingredients).every(ingrdnt => hasIngredients.includes(ingrdnt));
+      });
+
+      console.log(search_result);
+    }
+
   }
 
   async function updateGlasses() {
@@ -203,6 +212,14 @@
   <label for="custom">커스텀만</label>
   <input type="radio" name="only" class="search-filter" id="original" on:click={function () {search_type = this.id; searchRecipe([{key: "name", value: search_text}, {key: "type", value: search_type}])}}>
   <label for="original">오리지널만</label>
+  <input type="checkbox" name="kok" class="search-filter" id="kok" on:click={function () {
+    if (search_type == "all") {
+      searchRecipe([{key: "name", value: search_text}])
+    } else {
+      searchRecipe([{key: "name", value: search_text}, {key: "type", value: search_type}])
+    }
+  }}>
+  <label for="kok">만들 수 있는 칵테일만</label>
 </div>
 
 <section class="content-box">

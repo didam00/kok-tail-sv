@@ -1,7 +1,7 @@
 use u2301415;
 
-drop table CustomRecipeIngrdnts;
-drop table CustomRecipes;
+-- drop table CustomRecipeIngrdnts;
+-- drop table CustomRecipes;
 
 create table u2301415.CustomRecipes (
 	`id` int auto_increment primary key not null,

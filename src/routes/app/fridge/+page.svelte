@@ -4,6 +4,7 @@
   import down_icon from '$lib/images/down_icon.svg';
   import delete_bottle_icon from "$lib/images/delete_bottle_icon.svg";
   import MaterialWindow from "../../../components/MaterialWindow.svelte";
+  // import KoktailWindow from "../../../components/KoktailWindow.svelte";
 
   import { ingredients_data } from '$lib/data/ingredients';
     
@@ -18,6 +19,7 @@
   let hasIngredients: Ingredient[] = data.ingredients;
   let volumeIsChange = false;
   let showAddMaterialWin = false;
+  let showKoktailWin = false;
   let selectedIngrdnts: string[] = [];
   
   // 좌클릭하면 해당 요소가 어두워지고 가운데에 잔량 표시
@@ -136,13 +138,9 @@
     
     updateDBaddIngrdnts(newIngredients);
   }
-
-  function changeVolume(event: WheelEvent, ingredient: Ingredient) {
-
-  }
 </script>
 
-<div class="koktail-button">kok-tail!</div>
+<!-- <button class="koktail-button" on:click={() => {showKoktailWin = true}}>kok-tail!</button> -->
 
 <div class="ingredients-frame" on:wheel={
   event => {
@@ -204,6 +202,7 @@
 </div>
 
 <MaterialWindow callback={applyAddingredients} bind:active={showAddMaterialWin} exclude={hasIngredients.map(m => m.keyname)} />
+<!-- <KoktailWindow bind:active={showKoktailWin} bind:hasIngredients={hasIngredients} /> -->
 
 <style lang="scss">
   @import './+page.scss';

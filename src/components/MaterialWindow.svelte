@@ -108,7 +108,7 @@
       padding: 8px;
       border-radius: 4px;
       cursor: pointer;
-      font-weight: 700;
+      font-weight: 900;
       
     }
     

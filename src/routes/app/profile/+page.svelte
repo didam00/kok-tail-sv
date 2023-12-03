@@ -105,7 +105,7 @@
       <img src="/images/basic-profile-image.png" alt="프로필 이미지">
     </div>
     <div class="name">{data.users.user ? data.users.nickname : "로그인해주세요"}</div>
-    <div class="description">사용자가 지정한 설명 및 자기소개</div>
+    <!-- <div class="description">사용자가 지정한 설명 및 자기소개</div> -->
   </section>
   <section class="custom-cocktails">
     <h3 class="title">제작한 칵테일</h3>

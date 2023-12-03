@@ -7,7 +7,7 @@ $LIST_HEIGHT: 250px;
   gap: 4px;
   margin: -8px 0 16px 0;
 
-  input[type="radio"] {
+  input[type="radio"], input[type="checkbox"] {
     display: none;
     
     +label {
@@ -34,6 +34,22 @@ $LIST_HEIGHT: 250px;
       background: $white;
       font-weight: 600;
     }
+  }
+  
+  #kok + label {
+    border: 1px solid $dark-point-pink;
+    color: $dark-point-pink;
+
+    &:hover {
+      border-color: $bright-point-pink;
+      color: $bright-point-pink;
+    }
+  }
+
+  #kok:checked + label {
+    border-color: $point-pink;
+    color: $background-black;
+    background: $point-pink;
   }
 }
 

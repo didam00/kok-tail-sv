@@ -40,35 +40,35 @@
     use:enhance
   >
     <div class="inputs">
-      <div class="id-container">
-        <input
-          name="username"
-          bind:value={id}
-          class="id" type="text" placeholder="아이디를 입력해주세요."
-          required
-          minlength="6"
-          maxlength="12"
-          pattern="^[A-Za-z0-9_\-]+$"
-        >
-      </div>
-      {#if form?.cantFindUsername}
-        <p class="register-warning"><span class="material-icons">&#xE645;</span>해당하는 아이디를 찾을 수 없습니다.</p>
-      {/if}
-      <div class="password-container">
-        <input
-          name="password"
-          bind:value={password}
-          class="password" type="password" placeholder="비밀번호를 입력해주세요."
-          required
-          minlength="10"
-          maxlength="32"
-          pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d$@$!%*#?&]+$"
-        >
-        <span class="material-icons see-password" on:pointerdown={togglePassword}>&#xE8F5;</span>
-      </div>
-      {#if form?.incorrectPassword}
-        <p class="register-warning"><span class="material-icons">&#xE645;</span>비밀번호가 일치하지 않습니다.</p>
-      {/if}
+<div class="id-container">
+  <input
+    name="username"
+    bind:value={id}
+    class="id" type="text" placeholder="아이디를 입력해주세요."
+    required
+    minlength="6"
+    maxlength="12"
+    pattern="^[A-Za-z0-9_\-]+$"
+  >
+</div>
+{#if form?.cantFindUsername}
+  <p class="register-warning"><span class="material-icons">&#xE645;</span>해당하는 아이디를 찾을 수 없습니다.</p>
+{/if}
+<div class="password-container">
+  <input
+    name="password"
+    bind:value={password}
+    class="password" type="password" placeholder="비밀번호를 입력해주세요."
+    required
+    minlength="10"
+    maxlength="32"
+    pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d$@$!%*#?&]+$"
+  >
+  <span class="material-icons see-password" on:pointerdown={togglePassword}>&#xE8F5;</span>
+</div>
+{#if form?.incorrectPassword}
+  <p class="register-warning"><span class="material-icons">&#xE645;</span>비밀번호가 일치하지 않습니다.</p>
+{/if}
     </div>
     <input
       class="submit" type="submit" value="로그인"

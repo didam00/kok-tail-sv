@@ -68,10 +68,7 @@
     for (let i = 0; i < 6; i++) {
       liquid[i]?.setAttribute("fill", cocktail.color[Math.floor(cocktail.color.length / 6 * i)]);
     }
-
-    if (cocktail.color.length > 0 && cocktail.name != "") {
-      // document.querySelector(".submit-option").
-    }
+    
     return;
   }
 
