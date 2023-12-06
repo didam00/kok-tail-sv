@@ -1,1 +1,0 @@
-scp -r ./build u2301415@203.234.62.38:html/2301415-term-project

@@ -98,6 +98,13 @@ export const ingredients_data = [
     description: "커피맛이 나는 리큐르로 칼루아 등이 여기에 속해요.",
   },
   {
+    name: "바나나 리큐르",
+    key: "banana_liquor",
+    src: "banana_liquor",
+    color: "#1f1817",
+    description: "바나나 향이 있는 리큐르에요.",
+  },
+  {
     name: "북경고량주",
     key: 'kaoliang',
     src: "kaoliang",
@@ -110,6 +117,13 @@ export const ingredients_data = [
     src: "lemon_juice",
     color: "#f0f26f",
     description: "description 입니다.",
+  },
+  {
+    name: "스윗 앤 사워 믹스",
+    key: 'sweet_and_sour_mix',
+    src: "sweet_and_sour_mix",
+    color: "#d4b359",
+    description: "칵테일에 자주 사용되는 부재료에요. 레몬 주스, 라임 주스, 설탕을 이용해 만들어요.",
   },
   {
     name: "막걸리",
@@ -201,6 +215,27 @@ export const ingredients_data = [
     src: "white_vermouth",
     color: "#b0b7a7",
     description: "description 입니다.",
+  },
+  {
+    name: '크렘 드 카시스',
+    key: 'creme_de_cassis',
+    src: "creme_de_cassis",
+    color: "#1c1a1e",
+    description: "핏빛을 띠는 리큐르의 일종이에요. 복분자주와 비슷한 방법으로 만들며, 맛도 비슷해요.",
+  },
+  {
+    name: '화이트 와인 (백포도주)',
+    key: 'white_wine',
+    src: "white_wine",
+    color: "#beb793",
+    description: "빛이 맑고 투명한 포도주를 통칭해요.",
+  },
+  {
+    name: '레드 와인 (적포도주)',
+    key: 'red_wine',
+    src: "red_wine",
+    color: "#30252b",
+    description: "백포도주와는 달리 껍질을 제거하지 않고 발효시킨 붉은빛을 띤 와인이에요.",
   },
   {
     name: '우유',

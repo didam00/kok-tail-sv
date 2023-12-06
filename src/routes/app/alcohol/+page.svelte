@@ -108,7 +108,7 @@
       filter: brightness(100%);
     }
     50% {
-      filter: brightness(230%) drop-shadow(0 0 14px #ffffff40);
+      filter: brightness(250%) drop-shadow(0 0 24px #ffffff40);
     }
     75% {
       filter: brightness(100%);
