@@ -39,4 +39,8 @@ export const glasses_data = [
     name: "샴페인 글라스",
     key: "champagne_glass",
   },
+  {
+    name: "허리케인 글라스",
+    key: "hurricane_glass",
+  },
 ]

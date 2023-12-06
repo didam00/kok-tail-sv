@@ -115,7 +115,7 @@
           if (isKeyOfRecipe(option.key, alcohol) && typeof alcohol[option.key] == 'string') {
             /** 앞에서 typeof로 이미 string인게 확정됐다 */
             const target_txt = (alcohol[option.key] as string)
-            return target_txt.includes(option.value ?? "")
+            return target_txt.replace(" ", "").includes(option.value ? option.value.replace(" ", "") : "")
           }
         });
       }
@@ -201,7 +201,7 @@
   >
   <input type="image" src={search_icon} alt="search icon" class="search-icon">
   <div>
-
+    
   </div>
 </label>
 

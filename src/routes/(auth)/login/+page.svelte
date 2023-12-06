@@ -12,9 +12,6 @@
   let password_valid: boolean = false;
   let seePassword: boolean = false;
 
-  const params = new URLSearchParams(window.location.search);
-  const fromurl: string = params.get("url") ?? "./app";
-
   function togglePassword() {
     seePassword = !seePassword;
     document.querySelector(".password")?.setAttribute("type", seePassword ? "text" : "password");
@@ -32,7 +29,7 @@
 </script>
 
 <div class="center-window login-container">
-  <a class="material-icons close-icon" href={fromurl}>&#xe5cd;</a>
+  <a class="material-icons close-icon" href="/app/profile">&#xe5cd;</a>
   <form 
     class="login-form"
     action="?/login"
@@ -76,7 +73,7 @@
     >
   </form>
   <hr class="form-hr-ar">
-  <div class="ask-register">계정이 없으시다면 빠르게 <a class="go-register" href="./register?url={fromurl}">회원가입</a> 하실 수 있어요.</div>
+  <div class="ask-register">계정이 없으시다면 빠르게 <a class="go-register" href="./register">회원가입</a> 하실 수 있어요.</div>
 </div>
 <div class="hide-back"></div>
 

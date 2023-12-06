@@ -13,11 +13,6 @@
   }
 
   export let data;
-  
-  let url: string;
-  onMount(() => {
-    url = window.location.href;
-  })
 
   let showAddMaterialWin = false;
   let draggedMaterialBox: Material|null = null;
@@ -220,7 +215,7 @@
 <section class="no-login">
   <div class="alert">
     <h3>로그인이 필요한 서비스입니다</h3>
-    <button class="login-button"><a href="/login?url={url}">로그인</a></button>
+    <button class="login-button"><a href="/login">로그인</a></button>
   </div>
 </section>
 {/if}

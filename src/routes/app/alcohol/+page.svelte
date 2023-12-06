@@ -37,7 +37,7 @@
           if (isKeyOfingredient(option.key, ingredient)) {
             if (typeof ingredient[option.key] === "string") {
               /** nullish coalescing 연산자를 이용 */
-              return ((ingredient[option.key] as string).toLowerCase()).includes((option.value?.toLowerCase()) ?? "");
+              return ((ingredient[option.key] as string).toLowerCase().replace(" ", "")).includes((option.value?.toLowerCase().replace(" ", "")) ?? "");
             }
           }
         });
@@ -108,7 +108,7 @@
       filter: brightness(100%);
     }
     50% {
-      filter: brightness(200%) drop-shadow(0 0 14px #ffffff40);
+      filter: brightness(230%) drop-shadow(0 0 14px #ffffff40);
     }
     75% {
       filter: brightness(100%);
@@ -125,7 +125,6 @@
     margin: 0 auto;
     padding: 0;
     overflow-y: scroll;
-    min-width: 800px;
   }
 
   .alchol-container {

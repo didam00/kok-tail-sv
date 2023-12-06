@@ -1,5 +1,3 @@
-// export const prerender = true;
-
 import db, { ControlDB } from "$lib/db";
 import { fail, redirect } from "@sveltejs/kit";
 import type { Action, Actions } from "./$types";
@@ -52,12 +50,14 @@ const register: Action = async function ({ request, cookies }) {
     })
 
     cookies.set('kok-tail-logins', token, {
-      path: '/',
-      httpOnly: true,
-      secure: true,
+      httpOnly: true, // 클라이언트 스크립트에서 이 쿠키를 읽을 수 없음
       sameSite: 'strict',
-      maxAge: 60 * 60 * 24 * 7,
+      // ! https 가 아닌 곳에서는 secure 속성을 사용할 수 없다!
+      secure: false,
+      path: '/', // 쿠키가 전송될 경로
+      maxAge: 60 * 60 * 24 * 7, // 쿠키의 유효기간을 1주일로 설정
     });
+    // localStorage.setItem('kok-tail-logins', token);
   } catch (error) {
     console.log(error);
     return error;

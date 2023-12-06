@@ -12,6 +12,12 @@ const pool = await mysql.createPool({
   password: process.env.DB_PASSWORD,
   database: process.env.DB_DATABASE,
   port: parseInt(process.env.DB_PORT || '3306'),
+  // host: "203.234.62.38",
+  // // host: "localhost",
+  // user: "u2301415",
+  // password: "u2301415!",
+  // database: "u2301415",
+  // port: 3307,
 })
 
 export default pool;

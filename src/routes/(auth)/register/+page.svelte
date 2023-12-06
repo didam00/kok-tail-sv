@@ -18,9 +18,6 @@
 
   let seePassword: boolean = false;
 
-  const params = new URLSearchParams(window.location.search);
-  const fromurl: string = params.get("url") ?? "./app";
-
   function togglePassword() {
     seePassword = !seePassword;
     document.querySelector(".password")?.setAttribute("type", seePassword ? "text" : "password");
@@ -62,7 +59,7 @@
 </script>
 
 <div class="center-window register-container">
-  <a class="material-icons close-icon" href={fromurl}>&#xe5cd;</a>
+  <a class="material-icons close-icon" href="/app/profile">&#xe5cd;</a>
   <!-- <h2 class="title">로그인</h2> -->
   <form 
     class="register-form"
@@ -129,7 +126,7 @@
     >
   </form>
   <hr class="form-hr-ar">
-  <div class="ask-login">이미 계정이 있으시다면 지금 <a class="go-login" href="./login?url={fromurl}">로그인</a> 해보세요.</div>
+  <div class="ask-login">이미 계정이 있으시다면 지금 <a class="go-login" href="./login">로그인</a> 해보세요.</div>
 </div>
 <div class="hide-back"></div>
 

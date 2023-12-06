@@ -3,6 +3,7 @@ import type { Handle } from "@sveltejs/kit";
 
 export const handle: Handle = async ({ event, resolve }) => {
   const session = event.cookies.get('kok-tail-logins');
+  // const session = localStorage.getItem('kok-tail-logins');
 
   if (!session) {
     return await resolve(event);

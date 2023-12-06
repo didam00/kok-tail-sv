@@ -33,12 +33,14 @@ const login: Action = async function ({ cookies, request }) {
   });
 
   cookies.set('kok-tail-logins', token, {
-    path: '/', // 쿠키가 전송될 경로
     httpOnly: true, // 클라이언트 스크립트에서 이 쿠키를 읽을 수 없음
-    secure: true, // https를 통해서만 전송
-    sameSite: 'strict', // 같은 사이트에서만 전송되도록 함
+    sameSite: 'strict',
+    // ! https 가 아닌 곳에서는 secure 속성을 사용할 수 없다!
+    secure: false,
+    path: '/', // 쿠키가 전송될 경로
     maxAge: 60 * 60 * 24 * 7, // 쿠키의 유효기간을 1주일로 설정
   });
+  // localStorage.setItem('kok-tail-logins', token);
 
   throw redirect(303, '../../app/profile');
 }

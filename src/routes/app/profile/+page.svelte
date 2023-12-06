@@ -22,12 +22,9 @@
 
   const BASE_URL = '';
   let showMenubar = false;
-  let url: string;
   let recipes: Recipe[] = [];
 
   onMount(async () => {
-    url = window.location.href;
-
     for (const recipe of data.customRecipes) {
       const svg_response = await fetch(`/images/glasses/${recipe.glass}.svg`);
       const svg_text = await svg_response.text();
@@ -92,9 +89,9 @@
       <ul>
         <li class="settings"><button>설정</button></li>
         {#if data.users.user}
-        <li class="logout"><a href="../logout?url={url}">로그아웃</a></li>
+        <li class="logout"><a href="../logout">로그아웃</a></li>
         {:else}
-        <li class="login"><a href="../login?url={url}">로그인</a></li>
+        <li class="login"><a href="../login">로그인</a></li>
         {/if}
       </ul>
     </div>

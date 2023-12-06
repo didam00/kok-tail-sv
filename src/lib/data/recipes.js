@@ -1,15 +1,41 @@
 export const recipes_data = [
   {
+    name: "섹스 온 더 비치",
+    key: "sex_on_the_beach",
+    glass: "highball_glass",
+    color: ["#ee8148"],
+    proof: 5,
+    ingredients: {
+      vodka: 40,
+      peachtree: 20,
+      orange_juice: 40,
+      cranberry_juice: 40,
+    },
+    description: '인기있는 대표적인 칵테일로 모던 섹스 온 더 비치에는 오렌지 주스 대신 파인애플 주스가 들어가요.',
+  },
+  {
     name: "베일리스 밀크",
     key: "baileys_milk",
     glass: "rock_glass",
     color: ["#BD9E70"],
     proof: 5,
     ingredients: {
-      milk: 3,
-      baileys: 1,
+      milk: 30,
+      baileys: 10,
     },
-    description: '',
+    description: '맛이 부드럽고 알콜 향이 잘 느껴지지 않는 저도수 칵테일이에요.',
+  },
+  {
+    name: "칼루아 밀크",
+    key: "kahlua_milk",
+    glass: "rock_glass",
+    color: ["#37251e", "#f5e9da"],
+    proof: 5,
+    ingredients: {
+      milk: 90,
+      kahlua: 30,
+    },
+    description: '맛이 부드럽고 알콜 향이 잘 느껴지지 않는 저도수 칵테일이에요.',
   },
   {
     name: "샹그리아",
@@ -18,9 +44,14 @@ export const recipes_data = [
     color: ["#B23131"],
     proof: 13,
     ingredients: {
-      
+      lemon: 1,
+      orange: 1,
+      sparkling: 200,
+      sugar: 20,
+      brandy: 50,
+      red_wine: 750,
     },
-    description: '',
+    description: '와인에 여러 과일을 넣어 마시는 스페인의 대중적인 술이에요.',
   },
   {
     name: "꿀주",
@@ -29,10 +60,10 @@ export const recipes_data = [
     color: ["#ffed9a"],
     proof: 16,
     ingredients: {
-      soju: 9,
-      beer: 1,
+      soju: 90,
+      beer: 10,
     },
-    description: '',
+    description: '섞지 않고 약간 층이 나눠진 상태로 마셔야 소주 특유의 쓴 맛없이 즐길 수 있어요.',
   },
   {
     name: "화이트 러시안",
@@ -42,19 +73,20 @@ export const recipes_data = [
     proof: 23,
     ingredients: {
       cream: 30,
-      coffee_liqueur: 30,
+      coffee_liquor: 30,
       vodka: 50,
     },
     description: '',
   },
   {
-    name: "진 토닉",
+    name: "진토닉",
     key: "gin_tonic",
     glass: "highball_glass",
     color: ["#A6D397"],
     proof: 13,
     ingredients: {
-
+      tonic_water: 100,
+      gin: 50,
     },
     description: '',
   },
@@ -65,21 +97,23 @@ export const recipes_data = [
     color: ["#75D964"],
     proof: 14,
     ingredients: {
-      
+      sugar_syrup: 20,
+      lemon_juice: 20,
+      midori: 50
     },
     description: '',
   },
-  {
-    name: "마가리타",
-    key: "margarita",
-    glass: "margarita_glass",
-    color: ["#eaeaa2"],
-    proof: 40,
-    ingredients: {
+  // {
+  //   name: "마가리타",
+  //   key: "margarita",
+  //   glass: "margarita_glass",
+  //   color: ["#eaeaa2"],
+  //   proof: 40,
+  //   ingredients: {
       
-    },
-    description: '',
-  },
+  //   },
+  //   description: '',
+  // },
   {
     name: "마티니",
     key: "martini",
@@ -87,7 +121,8 @@ export const recipes_data = [
     color: ["#c1bdbd"],
     proof: 40,
     ingredients: {
-      
+      gin: 60,
+      dry_vermouth: 10,
     },
     description: '',
   },
@@ -172,5 +207,32 @@ export const recipes_data = [
       coke: -1, // 적당량
     },
     description: '',
+  },
+  {
+    name: "피나 콜라다",
+    key: "pina_colada",
+    glass: "hurricane_glass",
+    color: ["#e2c06b"],
+    proof: 0,
+    ingredients: {
+      white_rum: 50,
+      coconut_cream: 30,
+      pineapple_juice: 50,
+    },
+    description: '',
+  },
+  {
+    name: "생일주",
+    key: "birthday_alcohol",
+    glass: "rock_glass",
+    color: ["#93a896", "#93a896", "#a8a995"],
+    proof: 0,
+    ingredients: {
+      soju: 200,
+      coke: 200,
+      powerade: 200,
+      spicy_shrimp_snack: 100
+    },
+    description: '누군가의 생일 때 먹었던 생일주이에요...',
   },
 ]
