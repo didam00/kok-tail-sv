@@ -292,3 +292,46 @@
     }
   }
 }
+
+@include mobile {
+  .custom-cocktail {
+    flex-direction: column;
+  }
+
+  .preview-container {
+    width: calc(100vw - 32px);
+    height: 220px;
+    border-right: 0;
+    border-bottom: 2px solid #101010;
+
+    .preview-cocktail {
+      scale: 0.8;
+      bottom: 16px;
+      translate: -50% 10%;
+    }
+  }
+
+  .settings-container {
+    position: relative;
+    width: calc(100vw - 32px);
+    border-right: 0;
+    padding: 0;
+    height: calc(100vh - 52px - 222px);
+
+    .submit-option {
+      position: fixed;
+      right: 28px;
+      bottom: 68px;
+      border: 1px solid $background-black;
+      box-shadow: 0 4px 8px #000000c0;
+    }
+
+    .custom-recipe-form {
+      height: 100%;
+    }
+  }
+
+  .scroll-cover {
+    display: none;
+  }
+}

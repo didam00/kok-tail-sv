@@ -22,6 +22,7 @@
 
   let search_text: string;
   let search_result: Ingredient[] = [...ingredients_data];
+  search_result = search_result.toSorted((a, b) => a.name.localeCompare(b.name));
   
   /** Type Guard for key in ingredient */
   function isKeyOfingredient(key: string, ingredient: Ingredient): key is keyof Ingredient {
@@ -44,7 +45,7 @@
       }
     }
 
-    search_result = results.sort();
+    search_result = results.toSorted((a, b) => a.name.localeCompare(b.name));;
   }
 
   function getMoreInformation(ingredient: Ingredient) {
@@ -178,6 +179,9 @@
         color: $bright-black;
         /* color: $gray; */
         font-size: 1em;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
       }
     }
 
@@ -213,23 +217,25 @@
       }
     }
     
-    &:hover {
-      /* translate: 0 -8px; */
-      /* box-shadow: 0px 8px 24px $active-black; */
-
-      border-color: $gray;
-      translate: 4px 0;
-      
-      .detail-container .name {
-        color: $white;
-      }
-      
-      .detail-container .description {
-        color: $gray;
-      }
-      
-      .arrow-icon {
-        filter: brightness(0.5);
+    @include desktop {
+      &:hover {
+        /* translate: 0 -8px; */
+        /* box-shadow: 0px 8px 24px $active-black; */
+  
+        border-color: $gray;
+        translate: 4px 0;
+        
+        .detail-container .name {
+          color: $white;
+        }
+        
+        .detail-container .description {
+          color: $gray;
+        }
+        
+        .arrow-icon {
+          filter: brightness(0.5);
+        }
       }
     }
   }
@@ -256,6 +262,7 @@
     
     .description {
       color: $gray;
+      white-space: wrap;
     }
 
     .arrow-icon {
@@ -265,6 +272,58 @@
     .more-information {
       /* display: block; */
       opacity: 1;
+    }
+  }
+
+  @include mobile {
+    .info-box {
+      width: 100%;
+    }
+
+    .alchol-container {
+      height: 100px;
+
+      .img-container {
+        height: 100px;
+        width: 80px;
+        
+        img {
+          scale: 0.3;
+        }
+      }
+  
+      .detail-container {
+        width: calc(100% - 100px);
+  
+        .name {
+          margin: 20px 0 0 0;
+        }
+
+        .description {
+          margin-bottom: 8px;
+        }
+      }
+  
+      .arrow-icon {
+        display: none;
+      }
+    }
+
+    .alchol-container.active {
+      height: 240px;
+
+      .name {
+        font-size: 1rem;
+      }
+
+      .img-container {
+        height: 240px;
+        width: 80px;
+
+        img {
+          scale: 0.3;
+        }
+      }
     }
   }
 </style>

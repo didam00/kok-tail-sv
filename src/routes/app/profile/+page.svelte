@@ -81,7 +81,7 @@
 </script>
 
 <div class="root-container">
-  <div class="more-container">
+  <!-- <div class="more-container">
     <button on:click={() => {showMenubar = !showMenubar}}>
       <img src={setting_icon} alt="more">
     </button>
@@ -95,7 +95,12 @@
         {/if}
       </ul>
     </div>
-  </div>
+  </div> -->
+  {#if data.users.user}
+  <div class="logout loginout"><a href="../logout">로그아웃</a></div>
+  {:else}
+  <div class="login loginout"><a href="../login">로그인</a></div>
+  {/if}
   
   <section class="profile">
     <div class="profile-image-container">

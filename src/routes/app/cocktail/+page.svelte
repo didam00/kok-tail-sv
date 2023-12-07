@@ -62,7 +62,7 @@
         type: 'original',
         description: recipe.description,
         author: null,
-        ingredients: recipe.ingredients as RecipeIngredients,
+        ingredients: recipe.ingredients as any,
       };
       recipes.push(r);
     }
@@ -83,6 +83,11 @@
         return acc;
       }, {})
 
+      const { nickname } = await fetch(`/api/getNickname?username=${recipe.username}`, {
+        method: 'GET',
+      }).then(res => res.json())
+
+
       const r: Recipe = {
         name: recipe.name,
         key: `${prefix}${recipe.id}`,
@@ -90,7 +95,7 @@
         color: recipe.colors.split(","),
         type: 'custom',
         description: recipe.description,
-        author: recipe.username,
+        author: nickname,
         ingredients: ingrdntsObj,
       };
 

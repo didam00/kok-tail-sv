@@ -133,20 +133,25 @@
 
     .side-bar {
       height: 52px;
-      width: 100%;
+      width: calc(100% - 16px);
       bottom: 0;
       border: 0;
-      padding: 4px 0 1px 0;
+      padding: 4px 8px 1px 8px;
       border-top: 2px solid $bright-black;
       overflow: hidden;
 
       // using flex
       nav {
         flex-direction: row;
+        justify-content: space-around;
       }
       
       .tab-icon {
-        float: left;
+        padding: 0 8px;
+
+        &:hover {
+          background: $background-black;
+        }
       }
     }
   }

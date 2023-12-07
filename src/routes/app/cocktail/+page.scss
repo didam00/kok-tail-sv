@@ -209,4 +209,50 @@ $LIST_HEIGHT: 250px;
 }
 
 @include mobile {
+  .search-filters-container {
+    gap: 8px;
+  }
+
+  .content-box {
+    width: 100%;  
+  }
+
+  .detail-container {
+    height: calc(100% - 370px);
+    
+    .image {
+      scale: 60%;
+      translate: -20% 40%;
+    }
+
+    .detail-content {
+      overflow-y: scroll;
+
+      .description {
+        height: auto;
+      }
+
+      .ingredients-container {
+        height: auto;
+        margin-bottom: 12px;
+      }
+
+      .author {
+        position: relative;
+      }
+    }
+  }
+
+  .list-container .recipe-container {
+    margin: 0 -6px;
+
+    .image {
+      scale: 0.5;
+      translate: 0 25%;
+    }
+
+    .name {
+      width: 80px;
+    }
+  }
 }

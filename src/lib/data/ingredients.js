@@ -294,6 +294,13 @@ export const ingredients_data = [
     description: "코카나무 잎과 콜라나무 열매에서 추출한 원액에 캐러맬 색소와 탄산, 각종 첨가물을 더해 만든 탄산음료이에요.",
   },
   {
+    name: '탄산수',
+    key: "soda_water",
+    src: "soda_water",
+    color: "#dae4e8",
+    description: "탄산수예요.",
+  },
+  {
     name: '파워에이드',
     key: "powerade",
     src: "powerade",

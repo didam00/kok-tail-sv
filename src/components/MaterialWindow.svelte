@@ -1,5 +1,6 @@
 <script lang="ts">
   import { ingredients_data } from '$lib/data/ingredients';
+  const ingredients = ingredients_data.toSorted((a, b) => a.name.localeCompare(b.name));
 
   export let callback: Function;
   export let active: boolean = false;
@@ -21,7 +22,7 @@
 <div class="add-material-window center-window {active ? 'active' : ''}">
   <h2 class="title">재료 선택</h2>
   <ul class="material-list">
-    {#each ingredients_data as ingredient (ingredient)}
+    {#each ingredients as ingredient (ingredient)}
     <!-- 프롭 exclude 에 포함됐다면 보여주지 않는다. -->
     {#if !exclude.includes(ingredient.key)}
     <div class="material-box">
@@ -122,6 +123,14 @@
         background: $active-black;
         color: gray;
       }
+    }
+  }
+
+  @include mobile {
+    .add-material-window {
+      width: calc(100% - 48px);
+      border: none;
+      border-radius: 0;
     }
   }
 </style>

@@ -66,6 +66,22 @@
   }
 }
 
+.loginout {
+  position: absolute;
+  right: 0;
+  top: 60px;
+  
+  a {
+    color: $white;
+    text-decoration: none;
+    font-size: 1rem;
+
+    &:hover {
+      color: $gray;
+    }
+  }
+}
+
 .profile {
   display: flex;
   flex-direction: column;
